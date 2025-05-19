@@ -18,102 +18,80 @@
             display: flex;
             align-items: center; /* Vertical centering */
             justify-content: center; /* Horizontal centering */
-            min-height: 100vh; /* Ensure centering works across full viewport height */
-            padding: 1rem; /* Adds space around the container, acts as a "border" on small screens */
-            box-sizing: border-box; /* Ensures padding doesn't add to width/height calculations */
+            min-height: 100vh; 
+            padding: 1rem; 
+            box-sizing: border-box; 
         }
 
-        /* Fade-in animation keyframes */
         @keyframes fadeInAnimation {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Main application container styling */
         .container {
             max-width: 700px;
-            width: 100%; /* Responsive width up to max-width */
-            margin: 0; /* Margins handled by body flex centering */
+            width: 100%; 
+            margin: 0; 
             padding: 2.5rem; 
-            background-color: rgba(31, 41, 55, 0.9); /* Darker container (Tailwind gray-800 with transparency) */
-            border-radius: 0.75rem; /* rounded-xl */
+            background-color: rgba(31, 41, 55, 0.9); 
+            border-radius: 0.75rem; 
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1); 
             backdrop-filter: blur(5px); 
-            -webkit-backdrop-filter: blur(5px); /* Safari support for backdrop-filter */
+            -webkit-backdrop-filter: blur(5px); 
         }
 
-        /* Main title styling */
         h1 {
             font-size: 4rem; 
             font-weight: 900; 
-            color: #ef4444; /* Red title (Tailwind red-500) */
+            color: #ef4444; 
             margin-bottom: 3rem; 
             text-align: center;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.1); 
             line-height: 1.15; 
         }
 
-        /* Sub-headings (e.g., "Closest Matches") styling */
         h2 {
-            font-size: 1.25rem; /* text-xl */
-            font-weight: 600; /* semibold */
-            color: #d1d5db; /* Tailwind gray-300 */
+            font-size: 1.25rem; 
+            font-weight: 600; 
+            color: #d1d5db; 
             margin-top: 2rem; 
             margin-bottom: 1rem; 
-            border-bottom: 1px solid #4b5563; /* Tailwind gray-600 */
+            border-bottom: 1px solid #4b5563; 
             padding-bottom: 0.5rem; 
         }
 
-        /* General label styling for form inputs */
         label {
             display: block;
             margin-bottom: 0.5rem; 
-            font-weight: 500; /* medium */
-            color: #d1d5db; /* Tailwind gray-300 */
-            font-size: 1rem; /* Base font size for labels */
+            font-weight: 500; 
+            color: #d1d5db; 
+            font-size: 1rem; 
         }
         
-        /* Styling for groups of form inputs (label + input/select) */
         .input-group {
-            margin-bottom: 1rem; /* Consistent space below each input group */
+            margin-bottom: 1rem; 
         }
 
-        /* Styling for input fields and select dropdowns */
         input[type="number"], select {
             width: 100%;
             padding: 0.75rem; 
-            border: 1px solid #6b7280; /* Tailwind gray-500 */
-            background-color: #4b5563; /* Tailwind gray-600 */
-            color: #f3f4f6; /* Tailwind gray-100 */
-            border-radius: 0.375rem; /* rounded-md */
-            box-sizing: border-box; /* Ensures padding and border don't add to width */
+            border: 1px solid #6b7280; 
+            background-color: #4b5563; 
+            color: #f3f4f6; 
+            border-radius: 0.375rem; 
+            box-sizing: border-box; 
         }
         input[type="number"]::placeholder {
-            color: #9ca3af; /* Tailwind gray-400 */
+            color: #9ca3af; 
         }
         input[type="number"]:focus, select:focus {
             outline: none;
-            border-color: #f87171; /* Red focus border (Tailwind red-400) */
-            box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.3); /* Red focus ring */
+            border-color: #f87171; 
+            box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.3); 
         }
 
-        /* Styling for the ACME checkbox container */
-        .checkbox-container {
-            display: flex;
-            align-items: center;
-            margin-top: 1.5rem; /* Extra space above the checkbox section */
-            /* margin-bottom is handled by .input-group if applied */
-        }
-        .checkbox-container input[type="checkbox"] {
-            width: auto; /* Override default full width for checkbox */
-            margin-right: 0.5rem;
-            accent-color: #ef4444; /* Red accent for checkbox */
-        }
-        .checkbox-container label { 
-             margin-bottom: 0; /* Remove bottom margin for checkbox label as it's inline */
-        }
+        /* REMOVED ACME Checkbox container styling as checkbox is removed */
 
-        /* Styling for the main action button container */
         .button-container {
             text-align: center; 
             margin-top: 1.5rem; 
@@ -122,68 +100,102 @@
             width: auto; 
             min-width: 180px; 
             padding: 0.75rem 2rem; 
-            background-color: #ef4444; /* Red button (Tailwind red-500) */
-            color: #ffffff; /* text-white */
-            font-weight: 600; /* semibold */
+            background-color: #ef4444; 
+            color: #ffffff; 
+            font-weight: 600; 
             border: none;
-            border-radius: 0.375rem; /* rounded-md */
+            border-radius: 0.375rem; 
             cursor: pointer;
             transition: background-color 0.2s ease-in-out, transform 0.1s ease;
         }
         button#findButton:hover {
-            background-color: #dc2626; /* Darker red on hover (Tailwind red-600) */
+            background-color: #dc2626; 
             transform: translateY(-1px); 
         }
         button#findButton:active {
-            transform: translateY(0px); /* Press down effect */
+            transform: translateY(0px); 
         }
         
-        /* Styling for individual result list items */
-        #results-list li {
-            background-color: #4b5563; /* bg-gray-600 */
-            border: 1px solid #6b7280; /* border-gray-500 */
-            padding: 1rem; 
-            margin-bottom: 0.75rem; 
-            border-radius: 0.375rem; /* rounded-md */
-            color: #e5e7eb; /* text-gray-200 */
-            display: flex; /* Enable flexbox for alignment */
-            justify-content: space-between; /* Space out main info and percentage */
-            align-items: flex-start; /* Align items to the top */
+        /* Tab navigation styling */
+        .tabs-container {
+            display: flex;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #4b5563; /* Separator line for tabs */
         }
-        #results-list li .info-block {
-            flex-grow: 1; /* Allow info block to take available space */
+        .tab-button {
+            padding: 0.75rem 1.25rem;
+            cursor: pointer;
+            border: none;
+            background-color: transparent;
+            color: #9ca3af; /* Dimmed color for inactive tabs (Tailwind gray-400) */
+            font-weight: 500;
+            border-bottom: 3px solid transparent; /* For active indicator */
+            margin-bottom: -2px; /* Align with container border */
+            transition: color 0.2s ease, border-color 0.2s ease;
         }
-        #results-list li .percentage-block {
-            margin-left: 1rem; /* Space between info and percentage */
-            text-align: right; /* Align percentage text to the right */
-            white-space: nowrap; /* Prevent percentage from wrapping */
+        .tab-button:hover {
+            color: #e5e7eb; /* Lighter color on hover (Tailwind gray-200) */
         }
-        #results-list li strong { /* Highlighted text within results */
-            color: #fca5a5; /* Lighter red for strong text (Tailwind red-300) */
-        }
-        #results-list li .match-percentage { /* Match percentage text */
-            font-weight: bold;
-            color: #a7f3d0; /* Tailwind green-200 for good match */
+        .tab-button.active {
+            color: #fca5a5; /* Active tab color (Tailwind red-300) */
+            border-bottom-color: #ef4444; /* Active tab border color (Tailwind red-500) */
+            font-weight: 600;
         }
 
-        /* Styling for error messages */
+        /* Styling for result list items (shared by all tabs) */
+        .results-list-ul { /* Common class for all result ULs */
+            list-style: none;
+            padding: 0;
+        }
+        .results-list-ul li {
+            background-color: #4b5563; 
+            border: 1px solid #6b7280; 
+            padding: 1rem; 
+            margin-bottom: 0.75rem; 
+            border-radius: 0.375rem; 
+            color: #e5e7eb; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: flex-start; 
+        }
+        .results-list-ul li .info-block {
+            flex-grow: 1; 
+        }
+        .results-list-ul li .percentage-block {
+            margin-left: 1rem; 
+            text-align: right; 
+            white-space: nowrap; 
+        }
+        .results-list-ul li strong { 
+            color: #fca5a5; 
+        }
+        .results-list-ul li .match-percentage { 
+            font-weight: bold;
+            color: #a7f3d0; 
+        }
+        .tab-content {
+            display: none; /* Hidden by default */
+        }
+        .tab-content.active {
+            display: block; /* Shown when tab is active */
+        }
+
+
         .error-message {
-            color: #fca5a5; /* Lighter red for error (Tailwind red-300) */
+            color: #fca5a5; 
             margin-top: 1rem; 
             text-align: center;
         }
 
-        /* Styling for dimmed/secondary text */
         .dim-text {
-            color: #9ca3af; /* text-gray-400 */
-            font-size: 0.875rem; /* text-sm */
+            color: #9ca3af; 
+            font-size: 0.875rem; 
         }
 
-        /* Styling for the visit counter */
         .visit-counter {
             text-align: center;
-            font-size: 0.875rem; /* text-sm */
-            color: #9ca3af; /* text-gray-400 */
+            font-size: 0.875rem; 
+            color: #9ca3af; 
             margin-top: 2.5rem; 
         }
     </style>
@@ -219,12 +231,6 @@
                 </select>
             </div>
 
-            <div class="checkbox-container input-group"> 
-                <input type="checkbox" id="isAcme" name="isAcme">
-                <label for="isAcme">Tick the box if it its clearly an ACME thread</label>
-            </div>
-
-
             <div class="button-container">
                 <button id="findButton">Find Closest Threads</button>
             </div>
@@ -233,9 +239,23 @@
 
         <div id="results-section" class="hidden">
             <h2>Closest Matches:</h2>
-            <ul id="results-list" class="list-none p-0">
-                </ul>
-            <p id="noMatchesMessage" class="text-gray-600 hidden">No close matches found with the provided input.</p>
+            <div class="tabs-container">
+                <button class="tab-button active" data-tab="metric">Metric</button>
+                <button class="tab-button" data-tab="imperial">Imperial</button>
+                <button class="tab-button" data-tab="acme">ACME</button>
+            </div>
+            <div id="metric-tab-content" class="tab-content active">
+                <ul id="metric-results-list" class="results-list-ul"></ul>
+                <p id="no-metric-matches" class="text-gray-400 hidden">No Metric matches found.</p>
+            </div>
+            <div id="imperial-tab-content" class="tab-content">
+                <ul id="imperial-results-list" class="results-list-ul"></ul>
+                <p id="no-imperial-matches" class="text-gray-400 hidden">No Imperial matches found.</p>
+            </div>
+            <div id="acme-tab-content" class="tab-content">
+                <ul id="acme-results-list" class="results-list-ul"></ul>
+                <p id="no-acme-matches" class="text-gray-400 hidden">No ACME matches found.</p>
+            </div>
         </div>
 
         <div class="visit-counter">
@@ -245,9 +265,8 @@
 
     <script>
         // --- Thread Database ---
-        // Stores various thread standards with their nominal major diameter and pitch in millimeters.
         const threadDatabase = [
-            // Metric Coarse Threads (ISO 261, ISO 724)
+            // Metric Coarse Threads
             { name: "M1.6 x 0.35", type: "Metric Coarse", majorDiameter_mm: 1.60, pitch_mm: 0.35 },
             { name: "M2 x 0.4", type: "Metric Coarse", majorDiameter_mm: 2.00, pitch_mm: 0.40 },
             { name: "M3 x 0.5", type: "Metric Coarse", majorDiameter_mm: 3.00, pitch_mm: 0.50 },
@@ -260,15 +279,13 @@
             { name: "M16 x 2.0", type: "Metric Coarse", majorDiameter_mm: 16.00, pitch_mm: 2.00 },
             { name: "M20 x 2.5", type: "Metric Coarse", majorDiameter_mm: 20.00, pitch_mm: 2.50 },
             { name: "M24 x 3.0", type: "Metric Coarse", majorDiameter_mm: 24.00, pitch_mm: 3.00 },
-
-            // Metric Fine Threads (ISO 261, ISO 724)
+            // Metric Fine Threads
             { name: "M8 x 1.0", type: "Metric Fine", majorDiameter_mm: 8.00, pitch_mm: 1.00 },
             { name: "M10 x 1.25", type: "Metric Fine", majorDiameter_mm: 10.00, pitch_mm: 1.25 },
             { name: "M12 x 1.25", type: "Metric Fine", majorDiameter_mm: 12.00, pitch_mm: 1.25 },
             { name: "M16 x 1.5", type: "Metric Fine", majorDiameter_mm: 16.00, pitch_mm: 1.50 },
             { name: "M20 x 1.5", type: "Metric Fine", majorDiameter_mm: 20.00, pitch_mm: 1.50 },
-
-            // Unified National Coarse (UNC) Threads
+            // UNC Threads
             { name: "#6-32 UNC", type: "UNC", majorDiameter_mm: 3.505, pitch_mm: 25.4 / 32 },
             { name: "#8-32 UNC", type: "UNC", majorDiameter_mm: 4.166, pitch_mm: 25.4 / 32 },
             { name: "#10-24 UNC", type: "UNC", majorDiameter_mm: 4.826, pitch_mm: 25.4 / 24 },
@@ -276,8 +293,7 @@
             { name: "5/16\"-18 UNC", type: "UNC", majorDiameter_mm: 7.938, pitch_mm: 25.4 / 18 },
             { name: "3/8\"-16 UNC", type: "UNC", majorDiameter_mm: 9.525, pitch_mm: 25.4 / 16 },
             { name: "1/2\"-13 UNC", type: "UNC", majorDiameter_mm: 12.700, pitch_mm: 25.4 / 13 },
-
-            // Unified National Fine (UNF) Threads
+            // UNF Threads
             { name: "#6-40 UNF", type: "UNF", majorDiameter_mm: 3.505, pitch_mm: 25.4 / 40 },
             { name: "#8-36 UNF", type: "UNF", majorDiameter_mm: 4.166, pitch_mm: 25.4 / 36 },
             { name: "#10-32 UNF", type: "UNF", majorDiameter_mm: 4.826, pitch_mm: 25.4 / 32 },
@@ -285,31 +301,21 @@
             { name: "5/16\"-24 UNF", type: "UNF", majorDiameter_mm: 7.938, pitch_mm: 25.4 / 24 },
             { name: "3/8\"-24 UNF", type: "UNF", majorDiameter_mm: 9.525, pitch_mm: 25.4 / 24 },
             { name: "1/2\"-20 UNF", type: "UNF", majorDiameter_mm: 12.700, pitch_mm: 25.4 / 20 },
-
-            // British Standard Pipe Parallel (BSPP - G series)
+            // BSPP (G)
             { name: "G 1/8\"", type: "BSPP", majorDiameter_mm: 9.728, pitch_mm: 25.4 / 28 },
             { name: "G 1/4\"", type: "BSPP", majorDiameter_mm: 13.157, pitch_mm: 25.4 / 19 },
             { name: "G 3/8\"", type: "BSPP", majorDiameter_mm: 16.662, pitch_mm: 25.4 / 19 },
             { name: "G 1/2\"", type: "BSPP", majorDiameter_mm: 20.955, pitch_mm: 25.4 / 14 },
-            { name: "G 3/4\"", type: "BSPP", majorDiameter_mm: 26.441, pitch_mm: 25.4 / 14 },
-            { name: "G 1\"", type: "BSPP", majorDiameter_mm: 33.249, pitch_mm: 25.4 / 11 },
-
-            // British Standard Pipe Taper (BSPT - R/Rp series)
+            // BSPT (R/Rp)
             { name: "R 1/8\"", type: "BSPT", majorDiameter_mm: 9.728, pitch_mm: 25.4 / 28 },
             { name: "R 1/4\"", type: "BSPT", majorDiameter_mm: 13.157, pitch_mm: 25.4 / 19 },
             { name: "R 3/8\"", type: "BSPT", majorDiameter_mm: 16.662, pitch_mm: 25.4 / 19 },
             { name: "R 1/2\"", type: "BSPT", majorDiameter_mm: 20.955, pitch_mm: 25.4 / 14 },
-            { name: "R 3/4\"", type: "BSPT", majorDiameter_mm: 26.441, pitch_mm: 25.4 / 14 },
-            { name: "R 1\"", type: "BSPT", majorDiameter_mm: 33.249, pitch_mm: 25.4 / 11 },
-
-            // National Pipe Thread Taper (NPT)
+            // NPT
             { name: "1/8\"-27 NPT", type: "NPT", majorDiameter_mm: 10.287, pitch_mm: 25.4 / 27 },
             { name: "1/4\"-18 NPT", type: "NPT", majorDiameter_mm: 13.716, pitch_mm: 25.4 / 18 },
             { name: "3/8\"-18 NPT", type: "NPT", majorDiameter_mm: 17.145, pitch_mm: 25.4 / 18 },
             { name: "1/2\"-14 NPT", type: "NPT", majorDiameter_mm: 21.336, pitch_mm: 25.4 / 14 },
-            { name: "3/4\"-14 NPT", type: "NPT", majorDiameter_mm: 26.670, pitch_mm: 25.4 / 14 },
-            { name: "1\"-11.5 NPT", type: "NPT", majorDiameter_mm: 33.401, pitch_mm: 25.4 / 11.5 },
-
             // ACME Threads
             { name: "1/4\"-16 ACME", type: "ACME", majorDiameter_mm: 6.35, pitch_mm: 25.4 / 16 },
             { name: "3/8\"-12 ACME", type: "ACME", majorDiameter_mm: 9.525, pitch_mm: 25.4 / 12 },
@@ -320,159 +326,186 @@
         ];
 
         // --- DOM Element References ---
-        // Get references to HTML elements to interact with them in JavaScript.
         const diameterInput = document.getElementById('diameter');
         const pitchInput = document.getElementById('pitch');
         const pitchUnitSelect = document.getElementById('pitchUnit');
         const threadFormSelect = document.getElementById('threadForm'); 
-        const isAcmeCheckbox = document.getElementById('isAcme'); 
+        // const isAcmeCheckbox = document.getElementById('isAcme'); // ACME checkbox removed
         const findButton = document.getElementById('findButton');
         const resultsSection = document.getElementById('results-section');
-        const resultsList = document.getElementById('results-list');
+        
+        const metricResultsList = document.getElementById('metric-results-list');
+        const imperialResultsList = document.getElementById('imperial-results-list');
+        const acmeResultsList = document.getElementById('acme-results-list');
+
+        const noMetricMatches = document.getElementById('no-metric-matches');
+        const noImperialMatches = document.getElementById('no-imperial-matches');
+        const noAcmeMatches = document.getElementById('no-acme-matches');
+        
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+
         const errorMessageDiv = document.getElementById('errorMessage');
-        const noMatchesMessage = document.getElementById('noMatchesMessage');
         const visitCountSpan = document.getElementById('visitCount');
 
         // --- Event Listener Setup ---
-        // Attach event listener to the find button to trigger the search.
         findButton.addEventListener('click', handleSearch);
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const targetTab = button.dataset.tab;
+                
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                tabContents.forEach(content => {
+                    if (content.id === `${targetTab}-tab-content`) {
+                        content.classList.add('active');
+                    } else {
+                        content.classList.remove('active');
+                    }
+                });
+            });
+        });
+
 
         // --- Core Functions ---
-
-        /**
-         * Handles the search process when the "Find Closest Threads" button is clicked.
-         * It gathers user inputs, validates them, processes the search, and displays results.
-         */
         function handleSearch() {
-            // Clear previous results and error messages
             errorMessageDiv.textContent = '';
-            resultsList.innerHTML = '';
-            resultsSection.classList.add('hidden'); // Hide results section initially
-            noMatchesMessage.classList.add('hidden'); // Hide "no matches" message
+            // Clear previous results from all tabs
+            metricResultsList.innerHTML = '';
+            imperialResultsList.innerHTML = '';
+            acmeResultsList.innerHTML = '';
+            noMetricMatches.classList.add('hidden');
+            noImperialMatches.classList.add('hidden');
+            noAcmeMatches.classList.add('hidden');
+            
+            resultsSection.classList.add('hidden'); 
 
-            // Get user inputs from the form
             const diameter = parseFloat(diameterInput.value);
             const pitch = parseFloat(pitchInput.value);
             const pitchUnit = pitchUnitSelect.value;
-            const threadForm = threadFormSelect.value; // External or Internal (currently not used in logic but captured)
-            const isAcmeSearch = isAcmeCheckbox.checked; 
+            const threadForm = threadFormSelect.value; 
+            // const isAcmeSearch = isAcmeCheckbox.checked; // ACME checkbox logic removed
 
-            // Validate inputs: ensure diameter and pitch are positive numbers
             if (isNaN(diameter) || diameter <= 0) {
                 errorMessageDiv.textContent = 'Please enter a valid positive diameter.';
-                return; // Stop execution if validation fails
+                return; 
             }
             if (isNaN(pitch) || pitch <= 0) {
                 errorMessageDiv.textContent = 'Please enter a valid positive pitch value.';
-                return; // Stop execution if validation fails
+                return; 
             }
 
-            // Convert pitch to millimeters if it's given in TPI (Threads Per Inch)
             let inputPitchMm;
             if (pitchUnit === 'tpi') {
-                inputPitchMm = 25.4 / pitch; // 25.4 mm per inch
+                inputPitchMm = 25.4 / pitch; 
             } else {
                 inputPitchMm = pitch;
             }
-
-            // Find the closest threads based on the processed inputs
-            // The 'threadForm' variable could be passed here if specific logic for internal/external threads is added later.
-            const closestThreads = findAndSortThreads(diameter, inputPitchMm, isAcmeSearch);
             
-            // Display the found threads or a "no matches" message
-            displayResults(closestThreads); 
+            // Find ALL potential matches first, then categorize
+            const allPotentialMatches = findAndSortThreads(diameter, inputPitchMm, threadForm);
+            displayCategorizedResults(allPotentialMatches); 
         }
 
-        /**
-         * Filters the thread database and calculates differences and match percentages.
-         * @param {number} inputDiameterMm - The user-provided diameter in millimeters.
-         * @param {number} inputPitchMm - The user-provided pitch in millimeters.
-         * @param {boolean} isAcmeSearch - True if only ACME threads should be searched.
-         * @returns {Array} An array of the top 3 matching thread objects, sorted by closeness.
-         */
-        function findAndSortThreads(inputDiameterMm, inputPitchMm, isAcmeSearch) {
-            let filteredDatabase;
-            // Filter database based on ACME checkbox
-            if (isAcmeSearch) {
-                filteredDatabase = threadDatabase.filter(thread => thread.type === "ACME");
-            } else {
-                filteredDatabase = threadDatabase.filter(thread => thread.type !== "ACME");
+        function findAndSortThreads(inputDiameterMm, inputPitchMm, threadForm) {
+            let currentDatabase = [...threadDatabase]; 
+
+            // 1. Diameter filtering based on thread form (internal/external)
+            if (threadForm === 'external') { 
+                currentDatabase = currentDatabase.filter(thread => thread.majorDiameter_mm >= inputDiameterMm);
+            } else if (threadForm === 'internal') {
+                currentDatabase = currentDatabase.filter(thread => thread.majorDiameter_mm <= inputDiameterMm);
             }
 
-            // Calculate differences and match percentage for each thread in the filtered database
-            const threadsWithDeltas = filteredDatabase.map(thread => {
+            // 2. Filter by diameter difference relative to pitch
+            const maxAllowedDiameterDiff = inputPitchMm * 1.80; 
+            currentDatabase = currentDatabase.filter(thread => {
+                const deltaD_abs = Math.abs(thread.majorDiameter_mm - inputDiameterMm);
+                return deltaD_abs <= maxAllowedDiameterDiff;
+            });
+
+            const threadsWithDeltas = currentDatabase.map(thread => {
                 const deltaD_abs = Math.abs(thread.majorDiameter_mm - inputDiameterMm);
                 const deltaP_abs = Math.abs(thread.pitch_mm - inputPitchMm);
                 
-                // Calculate percentage difference for diameter and pitch
-                // Avoid division by zero by checking if input is zero (though validated earlier)
                 const percentDiffD = inputDiameterMm === 0 ? 100 : (deltaD_abs / inputDiameterMm) * 100;
                 const percentDiffP = inputPitchMm === 0 ? 100 : (deltaP_abs / inputPitchMm) * 100;
                 
-                // Average the two percentage differences
-                const avgPercentDiff = (percentDiffD + percentDiffP) / 2;
+                const weightedAvgPercentDiff = (percentDiffD * 0.4) + (percentDiffP * 0.6);
                 
-                // Calculate match percentage (100% - average difference), ensuring it's not negative
-                let matchPercentage = 100 - avgPercentDiff;
-                if (matchPercentage < 0) {
-                    matchPercentage = 0;
-                }
+                let matchPercentage = 100 - weightedAvgPercentDiff;
+                if (matchPercentage < 0) matchPercentage = 0;
 
-                // Return the thread object with added delta and match percentage properties
                 return { 
                     ...thread, 
                     deltaD: deltaD_abs, 
                     deltaP: deltaP_abs, 
-                    matchPercentage: matchPercentage 
+                    matchPercentage: matchPercentage,
+                    isMetric: thread.type.startsWith("Metric") 
                 };
             });
 
-            // Sort threads:
-            // 1. Primary sort by absolute diameter difference (ascending).
-            // 2. Secondary sort by absolute pitch difference (ascending).
-            // 3. Tertiary sort by match percentage (descending - higher is better).
+            // Sort all potential matches
             threadsWithDeltas.sort((a, b) => {
-                if (a.deltaD < b.deltaD) return -1;
-                if (a.deltaD > b.deltaD) return 1;
-                if (a.deltaP < b.deltaP) return -1;
+                // Metric priority is applied when categorizing, not here directly for the full list
+                if (a.deltaP < b.deltaP) return -1; 
                 if (a.deltaP > b.deltaP) return 1;
-                if (a.matchPercentage > b.matchPercentage) return -1; // Higher percentage first
+                if (a.deltaD < b.deltaD) return -1; 
+                if (a.deltaD > b.deltaD) return 1;
+                if (a.matchPercentage > b.matchPercentage) return -1; 
                 if (a.matchPercentage < b.matchPercentage) return 1;
                 return 0;
             });
 
-            // Return the top 3 closest matches
-            return threadsWithDeltas.slice(0, 3);
+            return threadsWithDeltas; // Return all processed and sorted matches
         }
 
-        /**
-         * Displays the search results in the HTML.
-         * @param {Array} matches - An array of thread objects that are the closest matches.
-         */
-        function displayResults(matches) { 
+        function displayCategorizedResults(allMatches) {
+            const metricMatches = [];
+            const imperialMatches = []; // UNC, UNF, BSPP, BSPT, NPT
+            const acmeMatches = [];
+
+            allMatches.forEach(match => {
+                if (match.type === "ACME") {
+                    acmeMatches.push(match);
+                } else if (match.isMetric) {
+                    metricMatches.push(match);
+                } else { // All other non-ACME, non-Metric are considered Imperial for tabbing
+                    imperialMatches.push(match);
+                }
+            });
+            
+            // Sort Metric matches with Metric priority (already inherent by filtering)
+            // Sort Imperial matches (they are already sorted by deltaP, deltaD, match%)
+            // Sort ACME matches (they are already sorted by deltaP, deltaD, match%)
+
+            populateTab(metricResultsList, metricMatches.slice(0, 3), noMetricMatches);
+            populateTab(imperialResultsList, imperialMatches.slice(0, 3), noImperialMatches);
+            populateTab(acmeResultsList, acmeMatches.slice(0, 3), noAcmeMatches);
+
+            resultsSection.classList.remove('hidden');
+        }
+
+        function populateTab(listElement, matches, noMatchesElement) {
+            listElement.innerHTML = ''; // Clear previous items
             if (matches.length === 0) {
-                // If no matches, show the "no matches" message
-                noMatchesMessage.classList.remove('hidden');
-                resultsSection.classList.remove('hidden'); // Ensure section is visible to show the message
+                noMatchesElement.classList.remove('hidden');
                 return;
             }
+            noMatchesElement.classList.add('hidden');
 
-            // For each match, create and append a list item to the results list
             matches.forEach(match => {
                 const listItem = document.createElement('li');
                 let pitchDisplay;
-
-                // Format pitch display based on thread type (TPI for imperial/pipe, mm for metric)
                 if (match.type === "UNC" || match.type === "UNF" || match.type === "NPT" || match.type === "ACME" || match.type === "BSPP" || match.type === "BSPT") {
                     const tpi = (25.4 / match.pitch_mm);
-                    // Display TPI as integer if it's a whole number, otherwise with one decimal place
                     const tpiDisplay = Math.abs(tpi - Math.round(tpi)) < 0.001 ? Math.round(tpi) : tpi.toFixed(1);
                     pitchDisplay = `${tpiDisplay} TPI (${match.pitch_mm.toFixed(3)} mm)`;
-                } else { // Metric threads
+                } else { 
                     pitchDisplay = `${match.pitch_mm.toFixed(2)} mm`;
                 }
 
-                // Construct HTML for the list item
                 listItem.innerHTML = `
                     <div class="info-block">
                         <strong>${match.name}</strong> (${match.type})<br>
@@ -484,33 +517,26 @@
                         <span class="match-percentage">Match: ${match.matchPercentage.toFixed(1)}%</span>
                     </div>
                 `;
-                resultsList.appendChild(listItem);
+                listElement.appendChild(listItem);
             });
-            // Make the results section visible
-            resultsSection.classList.remove('hidden');
         }
 
-        /**
-         * Updates and displays the website visit count using localStorage.
-         */
+
         function updateVisitCount() {
             let count = localStorage.getItem('threadFinderVisits');
             if (count === null) {
-                count = 1; // First visit
+                count = 1; 
             } else {
-                count = parseInt(count) + 1; // Increment visit count
+                count = parseInt(count) + 1; 
             }
-            localStorage.setItem('threadFinderVisits', count); // Store updated count
+            localStorage.setItem('threadFinderVisits', count); 
             if (visitCountSpan) {
-                 visitCountSpan.textContent = count; // Display count on the page
+                 visitCountSpan.textContent = count; 
             }
         }
 
-        // --- Initialization ---
-        // Run when the DOM is fully loaded.
         document.addEventListener('DOMContentLoaded', () => {
-            updateVisitCount(); // Update and display visit count
-            // Get a reference to the threadForm select element (though not used in logic yet)
+            updateVisitCount(); 
             const threadFormSelect = document.getElementById('threadForm'); 
         });
     </script>
