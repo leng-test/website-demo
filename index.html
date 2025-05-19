@@ -40,21 +40,11 @@
             -webkit-backdrop-filter: blur(5px); 
         }
 
-        h1 {
-            font-size: 4rem; 
-            font-weight: 900; 
-            color: #ef4444; 
-            margin-bottom: 3rem; 
-            text-align: center;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1); 
-            line-height: 1.15; 
-        }
-
-        h2 {
+        h2 { /* Sub-headings like "Closest Matches" */
             font-size: 1.25rem; 
             font-weight: 600; 
             color: #d1d5db; 
-            margin-top: 2rem; 
+            margin-top: 1rem; 
             margin-bottom: 1rem; 
             border-bottom: 1px solid #4b5563; 
             padding-bottom: 0.5rem; 
@@ -89,8 +79,6 @@
             border-color: #f87171; 
             box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.3); 
         }
-
-        /* REMOVED ACME Checkbox container styling as checkbox is removed */
 
         .button-container {
             text-align: center; 
@@ -192,18 +180,11 @@
             font-size: 0.875rem; 
         }
 
-        .visit-counter {
-            text-align: center;
-            font-size: 0.875rem; 
-            color: #9ca3af; 
-            margin-top: 2.5rem; 
-        }
+        /* Visit counter styling removed */
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Proper Fast Thread Size Finder</h1>
-
         <div id="input-form">
             <div class="input-group">
                 <label for="diameter">Thread/Hole Diameter (mm):</label>
@@ -258,10 +239,7 @@
             </div>
         </div>
 
-        <div class="visit-counter">
-            Site visits: <span id="visitCount">0</span>
         </div>
-    </div>
 
     <script>
         // --- Thread Database ---
@@ -330,7 +308,6 @@
         const pitchInput = document.getElementById('pitch');
         const pitchUnitSelect = document.getElementById('pitchUnit');
         const threadFormSelect = document.getElementById('threadForm'); 
-        // const isAcmeCheckbox = document.getElementById('isAcme'); // ACME checkbox removed
         const findButton = document.getElementById('findButton');
         const resultsSection = document.getElementById('results-section');
         
@@ -346,7 +323,7 @@
         const tabContents = document.querySelectorAll('.tab-content');
 
         const errorMessageDiv = document.getElementById('errorMessage');
-        const visitCountSpan = document.getElementById('visitCount');
+        // const visitCountSpan = document.getElementById('visitCount'); // Visit counter span removed
 
         // --- Event Listener Setup ---
         findButton.addEventListener('click', handleSearch);
@@ -371,7 +348,6 @@
         // --- Core Functions ---
         function handleSearch() {
             errorMessageDiv.textContent = '';
-            // Clear previous results from all tabs
             metricResultsList.innerHTML = '';
             imperialResultsList.innerHTML = '';
             acmeResultsList.innerHTML = '';
@@ -385,7 +361,6 @@
             const pitch = parseFloat(pitchInput.value);
             const pitchUnit = pitchUnitSelect.value;
             const threadForm = threadFormSelect.value; 
-            // const isAcmeSearch = isAcmeCheckbox.checked; // ACME checkbox logic removed
 
             if (isNaN(diameter) || diameter <= 0) {
                 errorMessageDiv.textContent = 'Please enter a valid positive diameter.';
@@ -403,7 +378,6 @@
                 inputPitchMm = pitch;
             }
             
-            // Find ALL potential matches first, then categorize
             const allPotentialMatches = findAndSortThreads(diameter, inputPitchMm, threadForm);
             displayCategorizedResults(allPotentialMatches); 
         }
@@ -411,14 +385,12 @@
         function findAndSortThreads(inputDiameterMm, inputPitchMm, threadForm) {
             let currentDatabase = [...threadDatabase]; 
 
-            // 1. Diameter filtering based on thread form (internal/external)
             if (threadForm === 'external') { 
                 currentDatabase = currentDatabase.filter(thread => thread.majorDiameter_mm >= inputDiameterMm);
             } else if (threadForm === 'internal') {
                 currentDatabase = currentDatabase.filter(thread => thread.majorDiameter_mm <= inputDiameterMm);
             }
 
-            // 2. Filter by diameter difference relative to pitch
             const maxAllowedDiameterDiff = inputPitchMm * 1.80; 
             currentDatabase = currentDatabase.filter(thread => {
                 const deltaD_abs = Math.abs(thread.majorDiameter_mm - inputDiameterMm);
@@ -446,9 +418,7 @@
                 };
             });
 
-            // Sort all potential matches
             threadsWithDeltas.sort((a, b) => {
-                // Metric priority is applied when categorizing, not here directly for the full list
                 if (a.deltaP < b.deltaP) return -1; 
                 if (a.deltaP > b.deltaP) return 1;
                 if (a.deltaD < b.deltaD) return -1; 
@@ -458,12 +428,12 @@
                 return 0;
             });
 
-            return threadsWithDeltas; // Return all processed and sorted matches
+            return threadsWithDeltas; 
         }
 
         function displayCategorizedResults(allMatches) {
             const metricMatches = [];
-            const imperialMatches = []; // UNC, UNF, BSPP, BSPT, NPT
+            const imperialMatches = []; 
             const acmeMatches = [];
 
             allMatches.forEach(match => {
@@ -471,15 +441,11 @@
                     acmeMatches.push(match);
                 } else if (match.isMetric) {
                     metricMatches.push(match);
-                } else { // All other non-ACME, non-Metric are considered Imperial for tabbing
+                } else { 
                     imperialMatches.push(match);
                 }
             });
             
-            // Sort Metric matches with Metric priority (already inherent by filtering)
-            // Sort Imperial matches (they are already sorted by deltaP, deltaD, match%)
-            // Sort ACME matches (they are already sorted by deltaP, deltaD, match%)
-
             populateTab(metricResultsList, metricMatches.slice(0, 3), noMetricMatches);
             populateTab(imperialResultsList, imperialMatches.slice(0, 3), noImperialMatches);
             populateTab(acmeResultsList, acmeMatches.slice(0, 3), noAcmeMatches);
@@ -488,7 +454,7 @@
         }
 
         function populateTab(listElement, matches, noMatchesElement) {
-            listElement.innerHTML = ''; // Clear previous items
+            listElement.innerHTML = ''; 
             if (matches.length === 0) {
                 noMatchesElement.classList.remove('hidden');
                 return;
@@ -521,22 +487,11 @@
             });
         }
 
-
-        function updateVisitCount() {
-            let count = localStorage.getItem('threadFinderVisits');
-            if (count === null) {
-                count = 1; 
-            } else {
-                count = parseInt(count) + 1; 
-            }
-            localStorage.setItem('threadFinderVisits', count); 
-            if (visitCountSpan) {
-                 visitCountSpan.textContent = count; 
-            }
-        }
+        // updateVisitCount function removed
+        // Call to updateVisitCount in DOMContentLoaded removed
 
         document.addEventListener('DOMContentLoaded', () => {
-            updateVisitCount(); 
+            // Removed updateVisitCount();
             const threadFormSelect = document.getElementById('threadForm'); 
         });
     </script>
