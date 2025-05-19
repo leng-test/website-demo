@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Thread Finder</title>
+    <title>Proper Fast Thread Size Finder</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            /* New background: Light grey gradient */
-            background-color: #e5e7eb; /* Fallback light gray (Tailwind gray-200) */
-            background-image: linear-gradient(to bottom, #f3f4f6, #d1d5db); /* Gradient from gray-100 to gray-300 */
-            color: #374151; /* Adjusted default text color for lighter bg (Tailwind gray-700) */
+            /* Darkened background gradient */
+            background-color: #6b7280; /* Fallback darker gray (Tailwind gray-500) */
+            background-image: linear-gradient(to bottom, #a1a1aa, #4b5563); /* Gradient from gray-400 to gray-600 */
+            color: #e5e7eb; /* Adjusted default text color for darker bg (Tailwind gray-200) */
             opacity: 0; /* Initially hidden for fade-in */
             animation: fadeInAnimation 0.8s ease-out forwards;
             min-height: 100vh; /* Ensure gradient covers full viewport height */
@@ -26,45 +26,44 @@
         .container {
             max-width: 700px;
             margin: 2rem auto;
-            padding: 2.5rem; /* Increased padding */
-            /* Adjusted container background for better contrast with new body bg */
-            background-color: rgba(255, 255, 255, 0.95); /* White with slight transparency */
+            padding: 2.5rem; 
+            background-color: rgba(31, 41, 55, 0.9); /* Darker container (Tailwind gray-800 with transparency) */
             border-radius: 0.75rem; /* rounded-xl */
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); /* Adjusted shadow for lighter theme */
-            backdrop-filter: blur(3px); 
-            -webkit-backdrop-filter: blur(3px); 
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1); /* Adjusted shadow */
+            backdrop-filter: blur(5px); 
+            -webkit-backdrop-filter: blur(5px); 
         }
         h1 {
-            font-size: 2.5rem; /* text-4xl - Increased size */
+            font-size: 3rem; /* Increased size (Tailwind text-5xl is 3rem) */
             font-weight: 800; /* extrabold */
-            color: #1d4ed8; /* Darker blue (Tailwind blue-700) for contrast on light bg */
-            margin-bottom: 2rem; /* Increased margin */
+            color: #ef4444; /* Red title (Tailwind red-500) */
+            margin-bottom: 2.5rem; /* Slightly increased margin for bigger title */
             text-align: center;
-            text-shadow: none; /* Removed text shadow as it might not look good on light bg */
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1); 
         }
         h2 {
             font-size: 1.25rem; /* text-xl */
             font-weight: 600; /* semibold */
-            color: #1f2937; /* Tailwind gray-800 */
-            margin-top: 2rem; /* mt-8 */
-            margin-bottom: 1rem; /* mb-4 */
-            border-bottom: 1px solid #d1d5db; /* Tailwind gray-300 */
-            padding-bottom: 0.5rem; /* pb-2 */
+            color: #d1d5db; /* Tailwind gray-300 */
+            margin-top: 2rem; 
+            margin-bottom: 1rem; 
+            border-bottom: 1px solid #4b5563; /* Tailwind gray-600 */
+            padding-bottom: 0.5rem; 
         }
         label {
             display: block;
-            margin-bottom: 0.5rem; /* mb-2 */
+            margin-bottom: 0.5rem; 
             font-weight: 500; /* medium */
-            color: #374151; /* Tailwind gray-700 */
+            color: #d1d5db; /* Tailwind gray-300 */
         }
         input[type="number"], select {
             width: 100%;
-            padding: 0.75rem; /* p-3 */
-            border: 1px solid #d1d5db; /* Tailwind gray-300 */
-            background-color: #f9fafb; /* Tailwind gray-50 */
-            color: #1f2937; /* Tailwind gray-800 */
+            padding: 0.75rem; 
+            border: 1px solid #6b7280; /* Tailwind gray-500 */
+            background-color: #4b5563; /* Tailwind gray-600 */
+            color: #f3f4f6; /* Tailwind gray-100 */
             border-radius: 0.375rem; /* rounded-md */
-            margin-bottom: 1rem; /* mb-4 */
+            margin-bottom: 1rem; 
             box-sizing: border-box;
         }
         input[type="number"]::placeholder {
@@ -72,18 +71,18 @@
         }
         input[type="number"]:focus, select:focus {
             outline: none;
-            border-color: #2563eb; /* focus:border-blue-600 */
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25); /* focus:ring-blue-600 with opacity */
+            border-color: #f87171; /* Red focus border (Tailwind red-400) */
+            box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.3); /* Red focus ring */
         }
         .button-container {
-            text-align: center; /* Center the button */
-            margin-top: 1.5rem; /* Add space above the button */
+            text-align: center; 
+            margin-top: 1.5rem; 
         }
-        button#findButton { /* Specific targeting for the button */
-            width: auto; /* Auto width based on content */
-            min-width: 180px; /* Minimum width for better appearance */
-            padding: 0.75rem 2rem; /* py-3 px-8 */
-            background-color: #2563eb; /* bg-blue-600 */
+        button#findButton { 
+            width: auto; 
+            min-width: 180px; 
+            padding: 0.75rem 2rem; 
+            background-color: #ef4444; /* Red button (Tailwind red-500) */
             color: #ffffff; /* text-white */
             font-weight: 600; /* semibold */
             border: none;
@@ -92,43 +91,43 @@
             transition: background-color 0.2s ease-in-out, transform 0.1s ease;
         }
         button#findButton:hover {
-            background-color: #1d4ed8; /* hover:bg-blue-700 */
-            transform: translateY(-1px); /* Slight lift on hover */
+            background-color: #dc2626; /* Darker red on hover (Tailwind red-600) */
+            transform: translateY(-1px); 
         }
         button#findButton:active {
-            transform: translateY(0px); /* Press down effect */
+            transform: translateY(0px); 
         }
         #results-list li {
-            background-color: #f3f4f6; /* bg-gray-100 */
-            border: 1px solid #e5e7eb; /* border-gray-200 */
-            padding: 1rem; /* p-4 */
-            margin-bottom: 0.75rem; /* mb-3 */
+            background-color: #4b5563; /* bg-gray-600 */
+            border: 1px solid #6b7280; /* border-gray-500 */
+            padding: 1rem; 
+            margin-bottom: 0.75rem; 
             border-radius: 0.375rem; /* rounded-md */
-            color: #1f2937; /* Tailwind gray-800 */
+            color: #e5e7eb; /* text-gray-200 */
         }
         #results-list li strong {
-            color: #1e40af; /* text-blue-800 */
+            color: #fca5a5; /* Lighter red for strong text (Tailwind red-300) */
         }
         .error-message {
-            color: #dc2626; /* text-red-600 */
-            margin-top: 1rem; /* Increased margin for error message if button is separate */
+            color: #fca5a5; /* Lighter red for error (Tailwind red-300) */
+            margin-top: 1rem; 
             text-align: center;
         }
         .dim-text {
-            color: #6b7280; /* text-gray-500 */
+            color: #9ca3af; /* text-gray-400 */
             font-size: 0.875rem; /* text-sm */
         }
         .visit-counter {
             text-align: center;
             font-size: 0.875rem; /* text-sm */
-            color: #4b5563; /* text-gray-600 */
-            margin-top: 2.5rem; /* Increased margin */
+            color: #9ca3af; /* text-gray-400 */
+            margin-top: 2.5rem; 
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Interactive Thread Finder</h1>
+        <h1>Proper Fast Thread Size Finder</h1>
 
         <div id="input-form">
             <div>
