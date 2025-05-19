@@ -9,56 +9,70 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6; /* Tailwind gray-100 */
+            background-color: #4b5563; /* Tailwind gray-600 */
+            color: #e5e7eb; /* Tailwind gray-200 */
+            opacity: 0; /* Initially hidden for fade-in */
+            animation: fadeInAnimation 0.8s ease-out forwards;
         }
+
+        @keyframes fadeInAnimation {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .container {
             max-width: 700px;
             margin: 2rem auto;
             padding: 2rem;
-            background-color: white;
+            background-color: #374151; /* Tailwind gray-700 */
             border-radius: 0.5rem; /* rounded-lg */
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-md */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1); /* shadow-lg adjusted for darker theme */
         }
         h1 {
             font-size: 1.875rem; /* text-3xl */
             font-weight: 700; /* bold */
-            color: #2563eb; /* text-blue-600 */
+            color: #93c5fd; /* Tailwind blue-300 for better contrast on gray */
             margin-bottom: 1.5rem; /* mb-6 */
             text-align: center;
         }
         h2 {
             font-size: 1.25rem; /* text-xl */
             font-weight: 600; /* semibold */
-            color: #1f2937; /* text-gray-800 */
+            color: #d1d5db; /* Tailwind gray-300 */
             margin-top: 2rem; /* mt-8 */
             margin-bottom: 1rem; /* mb-4 */
-            border-bottom: 1px solid #d1d5db; /* border-gray-300 */
+            border-bottom: 1px solid #4b5563; /* Tailwind gray-600 */
             padding-bottom: 0.5rem; /* pb-2 */
         }
         label {
             display: block;
             margin-bottom: 0.5rem; /* mb-2 */
             font-weight: 500; /* medium */
-            color: #374151; /* text-gray-700 */
+            color: #d1d5db; /* Tailwind gray-300 */
         }
         input[type="number"], select {
             width: 100%;
             padding: 0.75rem; /* p-3 */
-            border: 1px solid #d1d5db; /* border-gray-300 */
+            border: 1px solid #6b7280; /* Tailwind gray-500 */
+            background-color: #4b5563; /* Tailwind gray-600 */
+            color: #f3f4f6; /* Tailwind gray-100 */
             border-radius: 0.375rem; /* rounded-md */
             margin-bottom: 1rem; /* mb-4 */
             box-sizing: border-box;
         }
+        input[type="number"]::placeholder {
+            color: #9ca3af; /* Tailwind gray-400 */
+        }
         input[type="number"]:focus, select:focus {
             outline: none;
-            border-color: #2563eb; /* focus:border-blue-500 */
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25); /* focus:ring-blue-200 */
+            border-color: #93c5fd; /* focus:border-blue-300 */
+            box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.3); /* focus:ring-blue-300 with opacity */
         }
         button {
             width: 100%;
             padding: 0.75rem 1.5rem; /* py-3 px-6 */
-            background-color: #2563eb; /* bg-blue-600 */
-            color: white;
+            background-color: #60a5fa; /* bg-blue-400 */
+            color: #1f2937; /* text-gray-800 for better contrast on lighter blue */
             font-weight: 600; /* semibold */
             border: none;
             border-radius: 0.375rem; /* rounded-md */
@@ -66,25 +80,32 @@
             transition: background-color 0.2s ease-in-out;
         }
         button:hover {
-            background-color: #1d4ed8; /* hover:bg-blue-700 */
+            background-color: #3b82f6; /* hover:bg-blue-500 */
         }
         #results-list li {
-            background-color: #f9fafb; /* bg-gray-50 */
-            border: 1px solid #e5e7eb; /* border-gray-200 */
+            background-color: #4b5563; /* bg-gray-600 */
+            border: 1px solid #6b7280; /* border-gray-500 */
             padding: 1rem; /* p-4 */
             margin-bottom: 0.75rem; /* mb-3 */
             border-radius: 0.375rem; /* rounded-md */
+            color: #e5e7eb; /* text-gray-200 */
         }
         #results-list li strong {
-            color: #1e40af; /* text-blue-800 */
+            color: #bfdbfe; /* text-blue-200 */
         }
         .error-message {
-            color: #dc2626; /* text-red-600 */
+            color: #fca5a5; /* text-red-300 */
             margin-top: 0.5rem; /* mt-2 */
         }
         .dim-text {
-            color: #6b7280; /* text-gray-500 */
+            color: #9ca3af; /* text-gray-400 */
             font-size: 0.875rem; /* text-sm */
+        }
+        .visit-counter {
+            text-align: center;
+            font-size: 0.875rem; /* text-sm */
+            color: #9ca3af; /* text-gray-400 */
+            margin-top: 2rem; /* mt-8 */
         }
     </style>
 </head>
@@ -121,12 +142,14 @@
                 </ul>
             <p id="noMatchesMessage" class="text-gray-600 hidden">No close matches found with the provided input.</p>
         </div>
+
+        <div class="visit-counter">
+            Site visits: <span id="visitCount">0</span>
+        </div>
     </div>
 
     <script>
-        // --- Thread Database ---
-        // A more comprehensive list would be ideal for a real tool.
-        // Storing majorDiameter_mm and pitch_mm for all types simplifies comparisons.
+        // --- Thread Database (unchanged from previous version) ---
         const threadDatabase = [
             // Metric Coarse (ISO 261, ISO 724)
             { name: "M1.6 x 0.35", type: "Metric Coarse", majorDiameter_mm: 1.60, pitch_mm: 0.35 },
@@ -201,6 +224,7 @@
         const resultsList = document.getElementById('results-list');
         const errorMessageDiv = document.getElementById('errorMessage');
         const noMatchesMessage = document.getElementById('noMatchesMessage');
+        const visitCountSpan = document.getElementById('visitCount');
 
         // --- Event Listener ---
         findButton.addEventListener('click', handleSearch);
@@ -246,6 +270,9 @@
             const threadsWithDeltas = threadDatabase.map(thread => {
                 const deltaD = Math.abs(thread.majorDiameter_mm - inputDiameterMm);
                 const deltaP = Math.abs(thread.pitch_mm - inputPitchMm);
+                // Weighted difference - adjust weights if needed
+                // Example: const weightedDifference = (deltaD * 0.7) + (deltaP * 0.3);
+                // For simplicity, we are still sorting primarily by deltaD then deltaP
                 return { ...thread, deltaD, deltaP };
             });
 
@@ -253,7 +280,6 @@
             threadsWithDeltas.sort((a, b) => {
                 if (a.deltaD < b.deltaD) return -1;
                 if (a.deltaD > b.deltaD) return 1;
-                // If deltaD is equal, sort by deltaP
                 if (a.deltaP < b.deltaP) return -1;
                 if (a.deltaP > b.deltaP) return 1;
                 return 0;
@@ -265,7 +291,7 @@
         function displayResults(matches) {
             if (matches.length === 0) {
                 noMatchesMessage.classList.remove('hidden');
-                resultsSection.classList.remove('hidden'); // Show section to display message
+                resultsSection.classList.remove('hidden');
                 return;
             }
 
@@ -273,13 +299,10 @@
                 const listItem = document.createElement('li');
                 let pitchDisplay;
                 if (match.type === "UNC" || match.type === "UNF") {
-                    const tpi = (25.4 / match.pitch_mm).toFixed(1); // Calculate TPI for display
-                     // Check if TPI is effectively an integer
-                    if (Math.abs(tpi - Math.round(tpi)) < 0.01) {
-                         pitchDisplay = `${Math.round(tpi)} TPI (${match.pitch_mm.toFixed(3)} mm)`;
-                    } else {
-                         pitchDisplay = `${tpi} TPI (${match.pitch_mm.toFixed(3)} mm)`;
-                    }
+                    const tpi = (25.4 / match.pitch_mm);
+                    // Display TPI with more precision if not a whole number, otherwise as integer
+                    const tpiDisplay = Math.abs(tpi - Math.round(tpi)) < 0.001 ? Math.round(tpi) : tpi.toFixed(1);
+                    pitchDisplay = `${tpiDisplay} TPI (${match.pitch_mm.toFixed(3)} mm)`;
                 } else { // Metric
                     pitchDisplay = `${match.pitch_mm.toFixed(2)} mm`;
                 }
@@ -295,9 +318,24 @@
             resultsSection.classList.remove('hidden');
         }
 
-        // Initialize or setup if needed (currently none beyond event listener)
+        // --- Visit Counter ---
+        function updateVisitCount() {
+            let count = localStorage.getItem('threadFinderVisits');
+            if (count === null) {
+                count = 1;
+            } else {
+                count = parseInt(count) + 1;
+            }
+            localStorage.setItem('threadFinderVisits', count);
+            if (visitCountSpan) {
+                 visitCountSpan.textContent = count;
+            }
+        }
+
+        // --- Initialize ---
         document.addEventListener('DOMContentLoaded', () => {
-            // Potential future initializations
+            updateVisitCount();
+            // The fade-in is handled by CSS animation on body load
         });
     </script>
 </body>
