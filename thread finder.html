@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Thread Finder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Tailwind gray-100 */
+        }
+        .container {
+            max-width: 700px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 0.5rem; /* rounded-lg */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-md */
+        }
+        h1 {
+            font-size: 1.875rem; /* text-3xl */
+            font-weight: 700; /* bold */
+            color: #2563eb; /* text-blue-600 */
+            margin-bottom: 1.5rem; /* mb-6 */
+            text-align: center;
+        }
+        h2 {
+            font-size: 1.25rem; /* text-xl */
+            font-weight: 600; /* semibold */
+            color: #1f2937; /* text-gray-800 */
+            margin-top: 2rem; /* mt-8 */
+            margin-bottom: 1rem; /* mb-4 */
+            border-bottom: 1px solid #d1d5db; /* border-gray-300 */
+            padding-bottom: 0.5rem; /* pb-2 */
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem; /* mb-2 */
+            font-weight: 500; /* medium */
+            color: #374151; /* text-gray-700 */
+        }
+        input[type="number"], select {
+            width: 100%;
+            padding: 0.75rem; /* p-3 */
+            border: 1px solid #d1d5db; /* border-gray-300 */
+            border-radius: 0.375rem; /* rounded-md */
+            margin-bottom: 1rem; /* mb-4 */
+            box-sizing: border-box;
+        }
+        input[type="number"]:focus, select:focus {
+            outline: none;
+            border-color: #2563eb; /* focus:border-blue-500 */
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25); /* focus:ring-blue-200 */
+        }
+        button {
+            width: 100%;
+            padding: 0.75rem 1.5rem; /* py-3 px-6 */
+            background-color: #2563eb; /* bg-blue-600 */
+            color: white;
+            font-weight: 600; /* semibold */
+            border: none;
+            border-radius: 0.375rem; /* rounded-md */
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+        }
+        button:hover {
+            background-color: #1d4ed8; /* hover:bg-blue-700 */
+        }
+        #results-list li {
+            background-color: #f9fafb; /* bg-gray-50 */
+            border: 1px solid #e5e7eb; /* border-gray-200 */
+            padding: 1rem; /* p-4 */
+            margin-bottom: 0.75rem; /* mb-3 */
+            border-radius: 0.375rem; /* rounded-md */
+        }
+        #results-list li strong {
+            color: #1e40af; /* text-blue-800 */
+        }
+        .error-message {
+            color: #dc2626; /* text-red-600 */
+            margin-top: 0.5rem; /* mt-2 */
+        }
+        .dim-text {
+            color: #6b7280; /* text-gray-500 */
+            font-size: 0.875rem; /* text-sm */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Interactive Thread Finder</h1>
+
+        <div id="input-form">
+            <div>
+                <label for="diameter">Thread/Hole Diameter (mm):</label>
+                <input type="number" id="diameter" name="diameter" step="any" placeholder="e.g., 6 or 6.35">
+            </div>
+
+            <div>
+                <label for="pitch">Measured Pitch:</label>
+                <input type="number" id="pitch" name="pitch" step="any" placeholder="e.g., 1 or 20">
+            </div>
+
+            <div>
+                <label for="pitchUnit">Pitch Unit:</label>
+                <select id="pitchUnit" name="pitchUnit">
+                    <option value="mm">Millimeters (mm)</option>
+                    <option value="tpi">Threads Per Inch (TPI)</option>
+                </select>
+            </div>
+
+            <button id="findButton">Find Closest Threads</button>
+            <div id="errorMessage" class="error-message"></div>
+        </div>
+
+        <div id="results-section" class="hidden">
+            <h2>Closest Matches:</h2>
+            <ul id="results-list" class="list-none p-0">
+                </ul>
+            <p id="noMatchesMessage" class="text-gray-600 hidden">No close matches found with the provided input.</p>
+        </div>
+    </div>
+
+    <script>
+        // --- Thread Database ---
+        // A more comprehensive list would be ideal for a real tool.
+        // Storing majorDiameter_mm and pitch_mm for all types simplifies comparisons.
+        const threadDatabase = [
+            // Metric Coarse (ISO 261, ISO 724)
+            { name: "M1.6 x 0.35", type: "Metric Coarse", majorDiameter_mm: 1.60, pitch_mm: 0.35 },
+            { name: "M2 x 0.4", type: "Metric Coarse", majorDiameter_mm: 2.00, pitch_mm: 0.40 },
+            { name: "M2.5 x 0.45", type: "Metric Coarse", majorDiameter_mm: 2.50, pitch_mm: 0.45 },
+            { name: "M3 x 0.5", type: "Metric Coarse", majorDiameter_mm: 3.00, pitch_mm: 0.50 },
+            { name: "M3.5 x 0.6", type: "Metric Coarse", majorDiameter_mm: 3.50, pitch_mm: 0.60 },
+            { name: "M4 x 0.7", type: "Metric Coarse", majorDiameter_mm: 4.00, pitch_mm: 0.70 },
+            { name: "M5 x 0.8", type: "Metric Coarse", majorDiameter_mm: 5.00, pitch_mm: 0.80 },
+            { name: "M6 x 1.0", type: "Metric Coarse", majorDiameter_mm: 6.00, pitch_mm: 1.00 },
+            { name: "M8 x 1.25", type: "Metric Coarse", majorDiameter_mm: 8.00, pitch_mm: 1.25 },
+            { name: "M10 x 1.5", type: "Metric Coarse", majorDiameter_mm: 10.00, pitch_mm: 1.50 },
+            { name: "M12 x 1.75", type: "Metric Coarse", majorDiameter_mm: 12.00, pitch_mm: 1.75 },
+            { name: "M14 x 2.0", type: "Metric Coarse", majorDiameter_mm: 14.00, pitch_mm: 2.00 },
+            { name: "M16 x 2.0", type: "Metric Coarse", majorDiameter_mm: 16.00, pitch_mm: 2.00 },
+            { name: "M18 x 2.5", type: "Metric Coarse", majorDiameter_mm: 18.00, pitch_mm: 2.50 },
+            { name: "M20 x 2.5", type: "Metric Coarse", majorDiameter_mm: 20.00, pitch_mm: 2.50 },
+            { name: "M24 x 3.0", type: "Metric Coarse", majorDiameter_mm: 24.00, pitch_mm: 3.00 },
+
+            // Metric Fine (ISO 261, ISO 724)
+            { name: "M8 x 1.0", type: "Metric Fine", majorDiameter_mm: 8.00, pitch_mm: 1.00 },
+            { name: "M10 x 1.25", type: "Metric Fine", majorDiameter_mm: 10.00, pitch_mm: 1.25 },
+            { name: "M10 x 1.0", type: "Metric Fine", majorDiameter_mm: 10.00, pitch_mm: 1.00 },
+            { name: "M12 x 1.5", type: "Metric Fine", majorDiameter_mm: 12.00, pitch_mm: 1.50 },
+            { name: "M12 x 1.25", type: "Metric Fine", majorDiameter_mm: 12.00, pitch_mm: 1.25 },
+            { name: "M14 x 1.5", type: "Metric Fine", majorDiameter_mm: 14.00, pitch_mm: 1.50 },
+            { name: "M16 x 1.5", type: "Metric Fine", majorDiameter_mm: 16.00, pitch_mm: 1.50 },
+            { name: "M18 x 1.5", type: "Metric Fine", majorDiameter_mm: 18.00, pitch_mm: 1.50 },
+            { name: "M20 x 1.5", type: "Metric Fine", majorDiameter_mm: 20.00, pitch_mm: 1.50 },
+            { name: "M20 x 1.0", type: "Metric Fine", majorDiameter_mm: 20.00, pitch_mm: 1.00 },
+            { name: "M24 x 2.0", type: "Metric Fine", majorDiameter_mm: 24.00, pitch_mm: 2.00 },
+            { name: "M24 x 1.5", type: "Metric Fine", majorDiameter_mm: 24.00, pitch_mm: 1.50 },
+
+            // UNC (Unified National Coarse)
+            { name: "#1-64 UNC", type: "UNC", majorDiameter_mm: 1.854, pitch_mm: 25.4 / 64 },
+            { name: "#2-56 UNC", type: "UNC", majorDiameter_mm: 2.184, pitch_mm: 25.4 / 56 },
+            { name: "#3-48 UNC", type: "UNC", majorDiameter_mm: 2.515, pitch_mm: 25.4 / 48 },
+            { name: "#4-40 UNC", type: "UNC", majorDiameter_mm: 2.845, pitch_mm: 25.4 / 40 },
+            { name: "#5-40 UNC", type: "UNC", majorDiameter_mm: 3.175, pitch_mm: 25.4 / 40 },
+            { name: "#6-32 UNC", type: "UNC", majorDiameter_mm: 3.505, pitch_mm: 25.4 / 32 },
+            { name: "#8-32 UNC", type: "UNC", majorDiameter_mm: 4.166, pitch_mm: 25.4 / 32 },
+            { name: "#10-24 UNC", type: "UNC", majorDiameter_mm: 4.826, pitch_mm: 25.4 / 24 },
+            { name: "1/4\"-20 UNC", type: "UNC", majorDiameter_mm: 6.350, pitch_mm: 25.4 / 20 },
+            { name: "5/16\"-18 UNC", type: "UNC", majorDiameter_mm: 7.938, pitch_mm: 25.4 / 18 },
+            { name: "3/8\"-16 UNC", type: "UNC", majorDiameter_mm: 9.525, pitch_mm: 25.4 / 16 },
+            { name: "7/16\"-14 UNC", type: "UNC", majorDiameter_mm: 11.112, pitch_mm: 25.4 / 14 },
+            { name: "1/2\"-13 UNC", type: "UNC", majorDiameter_mm: 12.700, pitch_mm: 25.4 / 13 },
+
+            // UNF (Unified National Fine)
+            { name: "#0-80 UNF", type: "UNF", majorDiameter_mm: 1.524, pitch_mm: 25.4 / 80 },
+            { name: "#1-72 UNF", type: "UNF", majorDiameter_mm: 1.854, pitch_mm: 25.4 / 72 },
+            { name: "#2-64 UNF", type: "UNF", majorDiameter_mm: 2.184, pitch_mm: 25.4 / 64 },
+            { name: "#3-56 UNF", type: "UNF", majorDiameter_mm: 2.515, pitch_mm: 25.4 / 56 },
+            { name: "#4-48 UNF", type: "UNF", majorDiameter_mm: 2.845, pitch_mm: 25.4 / 48 },
+            { name: "#5-44 UNF", type: "UNF", majorDiameter_mm: 3.175, pitch_mm: 25.4 / 44 },
+            { name: "#6-40 UNF", type: "UNF", majorDiameter_mm: 3.505, pitch_mm: 25.4 / 40 },
+            { name: "#8-36 UNF", type: "UNF", majorDiameter_mm: 4.166, pitch_mm: 25.4 / 36 },
+            { name: "#10-32 UNF", type: "UNF", majorDiameter_mm: 4.826, pitch_mm: 25.4 / 32 },
+            { name: "1/4\"-28 UNF", type: "UNF", majorDiameter_mm: 6.350, pitch_mm: 25.4 / 28 },
+            { name: "5/16\"-24 UNF", type: "UNF", majorDiameter_mm: 7.938, pitch_mm: 25.4 / 24 },
+            { name: "3/8\"-24 UNF", type: "UNF", majorDiameter_mm: 9.525, pitch_mm: 25.4 / 24 },
+            { name: "7/16\"-20 UNF", type: "UNF", majorDiameter_mm: 11.112, pitch_mm: 25.4 / 20 },
+            { name: "1/2\"-20 UNF", type: "UNF", majorDiameter_mm: 12.700, pitch_mm: 25.4 / 20 },
+        ];
+
+        // --- DOM Elements ---
+        const diameterInput = document.getElementById('diameter');
+        const pitchInput = document.getElementById('pitch');
+        const pitchUnitSelect = document.getElementById('pitchUnit');
+        const findButton = document.getElementById('findButton');
+        const resultsSection = document.getElementById('results-section');
+        const resultsList = document.getElementById('results-list');
+        const errorMessageDiv = document.getElementById('errorMessage');
+        const noMatchesMessage = document.getElementById('noMatchesMessage');
+
+        // --- Event Listener ---
+        findButton.addEventListener('click', handleSearch);
+
+        // --- Functions ---
+        function handleSearch() {
+            // Clear previous errors and results
+            errorMessageDiv.textContent = '';
+            resultsList.innerHTML = '';
+            resultsSection.classList.add('hidden');
+            noMatchesMessage.classList.add('hidden');
+
+            // Get and validate inputs
+            const diameter = parseFloat(diameterInput.value);
+            const pitch = parseFloat(pitchInput.value);
+            const pitchUnit = pitchUnitSelect.value;
+
+            if (isNaN(diameter) || diameter <= 0) {
+                errorMessageDiv.textContent = 'Please enter a valid positive diameter.';
+                return;
+            }
+            if (isNaN(pitch) || pitch <= 0) {
+                errorMessageDiv.textContent = 'Please enter a valid positive pitch value.';
+                return;
+            }
+
+            // Convert pitch to mm if necessary
+            let pitchInMm;
+            if (pitchUnit === 'tpi') {
+                pitchInMm = 25.4 / pitch;
+            } else {
+                pitchInMm = pitch;
+            }
+
+            // Find and sort threads
+            const closestThreads = findAndSortThreads(diameter, pitchInMm);
+
+            // Display results
+            displayResults(closestThreads);
+        }
+
+        function findAndSortThreads(inputDiameterMm, inputPitchMm) {
+            const threadsWithDeltas = threadDatabase.map(thread => {
+                const deltaD = Math.abs(thread.majorDiameter_mm - inputDiameterMm);
+                const deltaP = Math.abs(thread.pitch_mm - inputPitchMm);
+                return { ...thread, deltaD, deltaP };
+            });
+
+            // Sort: Primary by deltaD (diameter difference), secondary by deltaP (pitch difference)
+            threadsWithDeltas.sort((a, b) => {
+                if (a.deltaD < b.deltaD) return -1;
+                if (a.deltaD > b.deltaD) return 1;
+                // If deltaD is equal, sort by deltaP
+                if (a.deltaP < b.deltaP) return -1;
+                if (a.deltaP > b.deltaP) return 1;
+                return 0;
+            });
+
+            return threadsWithDeltas.slice(0, 3); // Return top 3 matches
+        }
+
+        function displayResults(matches) {
+            if (matches.length === 0) {
+                noMatchesMessage.classList.remove('hidden');
+                resultsSection.classList.remove('hidden'); // Show section to display message
+                return;
+            }
+
+            matches.forEach(match => {
+                const listItem = document.createElement('li');
+                let pitchDisplay;
+                if (match.type === "UNC" || match.type === "UNF") {
+                    const tpi = (25.4 / match.pitch_mm).toFixed(1); // Calculate TPI for display
+                     // Check if TPI is effectively an integer
+                    if (Math.abs(tpi - Math.round(tpi)) < 0.01) {
+                         pitchDisplay = `${Math.round(tpi)} TPI (${match.pitch_mm.toFixed(3)} mm)`;
+                    } else {
+                         pitchDisplay = `${tpi} TPI (${match.pitch_mm.toFixed(3)} mm)`;
+                    }
+                } else { // Metric
+                    pitchDisplay = `${match.pitch_mm.toFixed(2)} mm`;
+                }
+
+                listItem.innerHTML = `
+                    <strong>${match.name}</strong> (${match.type})<br>
+                    <span class="dim-text">Nominal Diameter:</span> ${match.majorDiameter_mm.toFixed(3)} mm<br>
+                    <span class="dim-text">Pitch:</span> ${pitchDisplay}<br>
+                    <span class="dim-text"><em>Difference (Dia):</em> ${match.deltaD.toFixed(3)} mm, <em>(Pitch):</em> ${match.deltaP.toFixed(3)} mm</span>
+                `;
+                resultsList.appendChild(listItem);
+            });
+            resultsSection.classList.remove('hidden');
+        }
+
+        // Initialize or setup if needed (currently none beyond event listener)
+        document.addEventListener('DOMContentLoaded', () => {
+            // Potential future initializations
+        });
+    </script>
+</body>
+</html>
