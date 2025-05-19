@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interactive Thread Finder</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -13,6 +13,12 @@
             color: #e5e7eb; /* Tailwind gray-200 */
             opacity: 0; /* Initially hidden for fade-in */
             animation: fadeInAnimation 0.8s ease-out forwards;
+            /* Example of a subtle background pattern. Replace with your image URL */
+            /* For a local image: background-image: url('your-image.jpg'); */
+            /* For a pattern: */
+            background-image: url(https://images.baer.tools/media/7b/6d/35/1730813035/HGB_vs_MGB2.jpg?ts=1730813035);
+            background-size: 1600px 900px;
+            background-position: 0 0, 30px 30px;
         }
 
         @keyframes fadeInAnimation {
@@ -23,17 +29,20 @@
         .container {
             max-width: 700px;
             margin: 2rem auto;
-            padding: 2rem;
-            background-color: #374151; /* Tailwind gray-700 */
-            border-radius: 0.5rem; /* rounded-lg */
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1); /* shadow-lg adjusted for darker theme */
+            padding: 2.5rem; /* Increased padding */
+            background-color: rgba(55, 65, 81, 0.9); /* Tailwind gray-700 with slight transparency */
+            border-radius: 0.75rem; /* rounded-xl */
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.1); /* Softer, deeper shadow */
+            backdrop-filter: blur(5px); /* Optional: blur effect if background image is busy */
+            -webkit-backdrop-filter: blur(5px); /* Safari support */
         }
         h1 {
-            font-size: 1.875rem; /* text-3xl */
-            font-weight: 700; /* bold */
-            color: #93c5fd; /* Tailwind blue-300 for better contrast on gray */
-            margin-bottom: 1.5rem; /* mb-6 */
+            font-size: 2.5rem; /* text-4xl - Increased size */
+            font-weight: 800; /* extrabold */
+            color: #93c5fd; /* Tailwind blue-300 */
+            margin-bottom: 2rem; /* Increased margin */
             text-align: center;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2); /* Subtle text shadow */
         }
         h2 {
             font-size: 1.25rem; /* text-xl */
@@ -68,19 +77,28 @@
             border-color: #93c5fd; /* focus:border-blue-300 */
             box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.3); /* focus:ring-blue-300 with opacity */
         }
-        button {
-            width: 100%;
-            padding: 0.75rem 1.5rem; /* py-3 px-6 */
+        .button-container {
+            text-align: center; /* Center the button */
+            margin-top: 1.5rem; /* Add space above the button */
+        }
+        button#findButton { /* Specific targeting for the button */
+            width: auto; /* Auto width based on content */
+            min-width: 180px; /* Minimum width for better appearance */
+            padding: 0.75rem 2rem; /* py-3 px-8 */
             background-color: #60a5fa; /* bg-blue-400 */
-            color: #1f2937; /* text-gray-800 for better contrast on lighter blue */
+            color: #1f2937; /* text-gray-800 */
             font-weight: 600; /* semibold */
             border: none;
             border-radius: 0.375rem; /* rounded-md */
             cursor: pointer;
-            transition: background-color 0.2s ease-in-out;
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease;
         }
-        button:hover {
+        button#findButton:hover {
             background-color: #3b82f6; /* hover:bg-blue-500 */
+            transform: translateY(-1px); /* Slight lift on hover */
+        }
+        button#findButton:active {
+            transform: translateY(0px); /* Press down effect */
         }
         #results-list li {
             background-color: #4b5563; /* bg-gray-600 */
@@ -95,7 +113,8 @@
         }
         .error-message {
             color: #fca5a5; /* text-red-300 */
-            margin-top: 0.5rem; /* mt-2 */
+            margin-top: 1rem; /* Increased margin for error message if button is separate */
+            text-align: center;
         }
         .dim-text {
             color: #9ca3af; /* text-gray-400 */
@@ -105,7 +124,7 @@
             text-align: center;
             font-size: 0.875rem; /* text-sm */
             color: #9ca3af; /* text-gray-400 */
-            margin-top: 2rem; /* mt-8 */
+            margin-top: 2.5rem; /* Increased margin */
         }
     </style>
 </head>
@@ -132,7 +151,9 @@
                 </select>
             </div>
 
-            <button id="findButton">Find Closest Threads</button>
+            <div class="button-container">
+                <button id="findButton">Find Closest Threads</button>
+            </div>
             <div id="errorMessage" class="error-message"></div>
         </div>
 
@@ -149,7 +170,7 @@
     </div>
 
     <script>
-        // --- Thread Database (unchanged from previous version) ---
+        // --- Thread Database (unchanged) ---
         const threadDatabase = [
             // Metric Coarse (ISO 261, ISO 724)
             { name: "M1.6 x 0.35", type: "Metric Coarse", majorDiameter_mm: 1.60, pitch_mm: 0.35 },
@@ -229,15 +250,13 @@
         // --- Event Listener ---
         findButton.addEventListener('click', handleSearch);
 
-        // --- Functions ---
+        // --- Functions (unchanged from previous version, except for minor logging/comments) ---
         function handleSearch() {
-            // Clear previous errors and results
             errorMessageDiv.textContent = '';
             resultsList.innerHTML = '';
             resultsSection.classList.add('hidden');
             noMatchesMessage.classList.add('hidden');
 
-            // Get and validate inputs
             const diameter = parseFloat(diameterInput.value);
             const pitch = parseFloat(pitchInput.value);
             const pitchUnit = pitchUnitSelect.value;
@@ -251,7 +270,6 @@
                 return;
             }
 
-            // Convert pitch to mm if necessary
             let pitchInMm;
             if (pitchUnit === 'tpi') {
                 pitchInMm = 25.4 / pitch;
@@ -259,10 +277,7 @@
                 pitchInMm = pitch;
             }
 
-            // Find and sort threads
             const closestThreads = findAndSortThreads(diameter, pitchInMm);
-
-            // Display results
             displayResults(closestThreads);
         }
 
@@ -270,13 +285,9 @@
             const threadsWithDeltas = threadDatabase.map(thread => {
                 const deltaD = Math.abs(thread.majorDiameter_mm - inputDiameterMm);
                 const deltaP = Math.abs(thread.pitch_mm - inputPitchMm);
-                // Weighted difference - adjust weights if needed
-                // Example: const weightedDifference = (deltaD * 0.7) + (deltaP * 0.3);
-                // For simplicity, we are still sorting primarily by deltaD then deltaP
                 return { ...thread, deltaD, deltaP };
             });
 
-            // Sort: Primary by deltaD (diameter difference), secondary by deltaP (pitch difference)
             threadsWithDeltas.sort((a, b) => {
                 if (a.deltaD < b.deltaD) return -1;
                 if (a.deltaD > b.deltaD) return 1;
@@ -285,7 +296,7 @@
                 return 0;
             });
 
-            return threadsWithDeltas.slice(0, 3); // Return top 3 matches
+            return threadsWithDeltas.slice(0, 3);
         }
 
         function displayResults(matches) {
@@ -300,7 +311,6 @@
                 let pitchDisplay;
                 if (match.type === "UNC" || match.type === "UNF") {
                     const tpi = (25.4 / match.pitch_mm);
-                    // Display TPI with more precision if not a whole number, otherwise as integer
                     const tpiDisplay = Math.abs(tpi - Math.round(tpi)) < 0.001 ? Math.round(tpi) : tpi.toFixed(1);
                     pitchDisplay = `${tpiDisplay} TPI (${match.pitch_mm.toFixed(3)} mm)`;
                 } else { // Metric
@@ -318,7 +328,6 @@
             resultsSection.classList.remove('hidden');
         }
 
-        // --- Visit Counter ---
         function updateVisitCount() {
             let count = localStorage.getItem('threadFinderVisits');
             if (count === null) {
@@ -332,10 +341,8 @@
             }
         }
 
-        // --- Initialize ---
         document.addEventListener('DOMContentLoaded', () => {
             updateVisitCount();
-            // The fade-in is handled by CSS animation on body load
         });
     </script>
 </body>
