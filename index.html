@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { font-family: sans-serif; margin: 0; background-color: #f0f2f5; }
-        .container { max-width: 900px; margin: 20px auto; padding: 20px; background-color: #fff; border-radius: 8px; box-shadow: 0 0 15px rgba(0,0,0,0.1); }
+        .container { max-width: 800px; margin: 20px auto; padding: 20px; background-color: #fff; border-radius: 8px; box-shadow: 0 0 15px rgba(0,0,0,0.1); }
         h1 { color: #333; text-align: center; margin-bottom: 20px; }
         label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
         input[type="number"], select {
@@ -33,60 +33,19 @@
         .tab-content ul { list-style-type: none; padding: 0; }
         .tab-content li {
             background-color: #f9f9f9; border: 1px solid #eee; padding: 15px;
-            margin-bottom: 10px; border-radius: 4px; display: flex; flex-wrap: wrap;
-            justify-content: space-between; align-items: center;
+            margin-bottom: 10px; border-radius: 4px; display: flex;
+            justify-content: space-between; align-items: flex-start; /* Adjusted for multi-line details */
         }
         .tab-content li strong { color: #007bff; }
-        .tab-content li .details { flex-basis: 70%; }
+        .tab-content li .details { flex-basis: 70%; font-size: 0.9em; color: #555; }
+        .tab-content li .details .extra-info { font-size: 0.9em; margin-top: 3px;} /* For new fields */
         .tab-content li .match-percent { flex-basis: 25%; text-align: right; font-weight: bold; color: #28a745; }
-        .match-detail { font-size: 0.85em; color: #555; margin-top: 3px; }
         .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
-        details {
-            border: 1px solid #ddd; border-radius: 4px; margin-bottom: 20px;
-            background-color: #f9f9f9;
-        }
-        summary {
-            padding: 10px; font-weight: bold; cursor: pointer; background-color: #e9ecef;
-            border-bottom: 1px solid #ddd; border-radius: 4px 4px 0 0;
-        }
-        summary:hover { background-color: #dcdcdc; }
-        .details-content { padding: 15px; }
-        .details-content p { margin-bottom: 10px; }
-        .details-content ul { list-style-position: inside; padding-left: 10px;}
-
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Proper Fast Thread Size Finder</h1>
-
-        <details id="measurementHelp">
-            <summary>How to Measure Threads</summary>
-            <div class="details-content">
-                <p>Accurate measurements are key to finding the correct thread. Here are some basic tips:</p>
-                <ul>
-                    <li><strong>Diameter:</strong>
-                        <ul>
-                            <li><strong>External Threads (Screws/Bolts):</strong> Measure the Major Diameter (the widest point across the threads, from crest to crest) using calipers.</li>
-                            <li><strong>Internal Threads (Nuts/Tapped Holes):</strong> Measure the Minor Diameter (the narrowest point inside the threads, from root to root) or the diameter of the hole before tapping. The app works best if you input a diameter close to the nominal major diameter of the matching external thread.</li>
-                        </ul>
-                    </li>
-                    <li><strong>Pitch:</strong>
-                        <ul>
-                            <li><strong>Millimeters (mm):</strong> Measure the distance from the crest of one thread to the crest of the next adjacent thread. Using calipers over several threads and dividing by the number of threads can improve accuracy.</li>
-                            <li><strong>Threads Per Inch (TPI):</strong> Count the number of thread crests within a one-inch length. A thread gauge is very helpful for this.</li>
-                        </ul>
-                    </li>
-                    <li><strong>General Tips:</strong>
-                        <ul>
-                            <li>Ensure your measuring tool (calipers, micrometer, thread gauge) is calibrated and used correctly.</li>
-                            <li>Clean the threads before measuring.</li>
-                            <li>For tapered threads (like NPT/BSPT), diameter changes along the thread length. Measure near the start or middle if possible.</li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </details>
 
         <div class="form-grid">
             <div>
@@ -113,14 +72,6 @@
                     <label for="internal">Internal (Nut/Hole)</label>
                 </div>
             </div>
-             <div>
-                <label for="numResults">Number of Results per Tab:</label>
-                <select id="numResults">
-                    <option value="3">Top 3</option>
-                    <option value="5">Top 5</option>
-                    <option value="10">Top 10</option>
-                </select>
-            </div>
         </div>
 
         <button onclick="handleSearch()">Find Closest Threads</button>
@@ -129,7 +80,7 @@
             <div class="tabs">
                 <button id="tabMetric" onclick="openTab(event, 'Metric')" class="active">Metric</button>
                 <button id="tabImperial" onclick="openTab(event, 'Imperial')">Imperial (UNC/UNF/BA)</button>
-                <button id="tabPipeAcme" onclick="openTab(event, 'PipeAcme')">Pipe & ACME</button>
+                <button id="tabPipeAcme" onclick="openTab(event, 'PipeAcme')">Pipe & ACME</button> {/* Changed Tab Name & ID */}
             </div>
 
             <div id="Metric" class="tab-content">
@@ -138,7 +89,7 @@
             <div id="Imperial" class="tab-content" style="display:none;">
                 <ul id="imperialResultsList"></ul>
             </div>
-            <div id="PipeAcme" class="tab-content" style="display:none;">
+            <div id="PipeAcme" class="tab-content" style="display:none;"> {/* Changed ID */}
                 <ul id="pipeAcmeResultsList"></ul>
             </div>
         </div>
@@ -146,7 +97,7 @@
 
     <script>
         const threadDatabase = [
-            // Metric Coarse
+            // Metric Coarse - Added new fields
             { name: "M1.6x0.35", type: "Metric Coarse", majorDiameter_mm: 1.6, pitch_mm: 0.35, tapDrill_mm: 1.25, clearanceDrill_mm: 1.8, minorDiameter_mm: 1.221, threadAngle_deg: 60 },
             { name: "M2x0.4", type: "Metric Coarse", majorDiameter_mm: 2.0, pitch_mm: 0.4, tapDrill_mm: 1.6, clearanceDrill_mm: 2.2, minorDiameter_mm: 1.567, threadAngle_deg: 60 },
             { name: "M2.5x0.45", type: "Metric Coarse", majorDiameter_mm: 2.5, pitch_mm: 0.45, tapDrill_mm: 2.05, clearanceDrill_mm: 2.7, minorDiameter_mm: 2.013, threadAngle_deg: 60 },
@@ -160,13 +111,13 @@
             { name: "M12x1.75", type: "Metric Coarse", majorDiameter_mm: 12.0, pitch_mm: 1.75, tapDrill_mm: 10.2, clearanceDrill_mm: 12.5, minorDiameter_mm: 10.106, threadAngle_deg: 60 },
             { name: "M16x2.0", type: "Metric Coarse", majorDiameter_mm: 16.0, pitch_mm: 2.0, tapDrill_mm: 14.0, clearanceDrill_mm: 16.5, minorDiameter_mm: 13.835, threadAngle_deg: 60 },
             { name: "M20x2.5", type: "Metric Coarse", majorDiameter_mm: 20.0, pitch_mm: 2.5, tapDrill_mm: 17.5, clearanceDrill_mm: 20.5, minorDiameter_mm: 17.294, threadAngle_deg: 60 },
-            // Metric Fine
+            // Metric Fine - Added new fields
             { name: "M8x1.0 (Fine)", type: "Metric Fine", majorDiameter_mm: 8.0, pitch_mm: 1.0, tapDrill_mm: 7.0, clearanceDrill_mm: 8.2, minorDiameter_mm: 6.917, threadAngle_deg: 60 },
             { name: "M10x1.25 (Fine)", type: "Metric Fine", majorDiameter_mm: 10.0, pitch_mm: 1.25, tapDrill_mm: 8.75, clearanceDrill_mm: 10.2, minorDiameter_mm: 8.647, threadAngle_deg: 60 },
             { name: "M12x1.25 (Fine)", type: "Metric Fine", majorDiameter_mm: 12.0, pitch_mm: 1.25, tapDrill_mm: 10.75, clearanceDrill_mm: 12.5, minorDiameter_mm: 10.647, threadAngle_deg: 60 },
             { name: "M12x1.5 (Fine)", type: "Metric Fine", majorDiameter_mm: 12.0, pitch_mm: 1.5, tapDrill_mm: 10.5, clearanceDrill_mm: 12.5, minorDiameter_mm: 10.376, threadAngle_deg: 60 },
             { name: "M20x1.5 (Fine)", type: "Metric Fine", majorDiameter_mm: 20.0, pitch_mm: 1.5, tapDrill_mm: 18.5, clearanceDrill_mm: 20.5, minorDiameter_mm: 18.376, threadAngle_deg: 60 },
-            // UNC (Unified National Coarse) - Imperial
+            // UNC (Unified National Coarse) - Imperial - Added new fields
             { name: "#4-40 UNC", type: "UNC", majorDiameter_mm: 2.845, pitch_mm: 0.635, tpi: 40, tapDrill_mm: 2.35, clearanceDrill_mm: 3.0, minorDiameter_mm: 2.12, threadAngle_deg: 60 },
             { name: "#6-32 UNC", type: "UNC", majorDiameter_mm: 3.505, pitch_mm: 0.794, tpi: 32, tapDrill_mm: 2.85, clearanceDrill_mm: 3.7, minorDiameter_mm: 2.60, threadAngle_deg: 60 },
             { name: "#8-32 UNC", type: "UNC", majorDiameter_mm: 4.166, pitch_mm: 0.794, tpi: 32, tapDrill_mm: 3.50, clearanceDrill_mm: 4.3, minorDiameter_mm: 3.26, threadAngle_deg: 60 },
@@ -175,11 +126,167 @@
             { name: "5/16\"-18 UNC", type: "UNC", majorDiameter_mm: 7.938, pitch_mm: 1.411, tpi: 18, tapDrill_mm: 6.60, clearanceDrill_mm: 8.2, minorDiameter_mm: 6.37, threadAngle_deg: 60 },
             { name: "3/8\"-16 UNC", type: "UNC", majorDiameter_mm: 9.525, pitch_mm: 1.588, tpi: 16, tapDrill_mm: 8.00, clearanceDrill_mm: 9.8, minorDiameter_mm: 7.78, threadAngle_deg: 60 },
             { name: "1/2\"-13 UNC", type: "UNC", majorDiameter_mm: 12.70, pitch_mm: 1.954, tpi: 13, tapDrill_mm: 10.8, clearanceDrill_mm: 13.0, minorDiameter_mm: 10.51, threadAngle_deg: 60 },
-            // UNF (Unified National Fine) - Imperial
+            // UNF (Unified National Fine) - Imperial - Added new fields
             { name: "#4-48 UNF", type: "UNF", majorDiameter_mm: 2.845, pitch_mm: 0.529, tpi: 48, tapDrill_mm: 2.40, clearanceDrill_mm: 3.0, minorDiameter_mm: 2.25, threadAngle_deg: 60 },
             { name: "#6-40 UNF", type: "UNF", majorDiameter_mm: 3.505, pitch_mm: 0.635, tpi: 40, tapDrill_mm: 2.95, clearanceDrill_mm: 3.7, minorDiameter_mm: 2.78, threadAngle_deg: 60 },
             { name: "#8-36 UNF", type: "UNF", majorDiameter_mm: 4.166, pitch_mm: 0.706, tpi: 36, tapDrill_mm: 3.50, clearanceDrill_mm: 4.3, minorDiameter_mm: 3.36, threadAngle_deg: 60 },
             { name: "#10-32 UNF", type: "UNF", majorDiameter_mm: 4.826, pitch_mm: 0.794, tpi: 32, tapDrill_mm: 4.10, clearanceDrill_mm: 5.0, minorDiameter_mm: 3.93, threadAngle_deg: 60 },
             { name: "1/4\"-28 UNF", type: "UNF", majorDiameter_mm: 6.350, pitch_mm: 0.907, tpi: 28, tapDrill_mm: 5.50, clearanceDrill_mm: 6.6, minorDiameter_mm: 5.33, threadAngle_deg: 60 },
-            // ACME Threads
-            { name: "1/4\"-16 ACME", type: "ACME", majorDiameter_mm: 6.35, pitch_mm: 1.5875, tpi: 16, tapDrill_mm: 4.
+            // ACME Threads - Added new fields
+            { name: "1/4\"-16 ACME", type: "ACME", majorDiameter_mm: 6.35, pitch_mm: 1.5875, tpi: 16, tapDrill_mm: 4.76, clearanceDrill_mm: 6.5, minorDiameter_mm: 4.7625, threadAngle_deg: 29 },
+            { name: "1/2\"-10 ACME", type: "ACME", majorDiameter_mm: 12.7, pitch_mm: 2.54, tpi: 10, tapDrill_mm: 10.16, clearanceDrill_mm: 13.0, minorDiameter_mm: 10.16, threadAngle_deg: 29 },
+            { name: "3/4\"-6 ACME", type: "ACME", majorDiameter_mm: 19.05, pitch_mm: 4.233, tpi: 6, tapDrill_mm: 14.82, clearanceDrill_mm: 19.3, minorDiameter_mm: 14.817, threadAngle_deg: 29 },
+            // BA (British Association) - New Entries
+            { name: "0BA", type: "BA", majorDiameter_mm: 6.00, pitch_mm: 1.00, tapDrill_mm: 5.0, clearanceDrill_mm: 6.2, minorDiameter_mm: 4.80, threadAngle_deg: 47.5 },
+            { name: "2BA", type: "BA", majorDiameter_mm: 4.70, pitch_mm: 0.81, tapDrill_mm: 3.9, clearanceDrill_mm: 4.9, minorDiameter_mm: 3.80, threadAngle_deg: 47.5 },
+            { name: "4BA", type: "BA", majorDiameter_mm: 3.60, pitch_mm: 0.66, tapDrill_mm: 3.0, clearanceDrill_mm: 3.8, minorDiameter_mm: 2.90, threadAngle_deg: 47.5 },
+            // NPT (National Pipe Thread Taper) - New Entries
+            { name: "1/8\"-27 NPT", type: "NPT", majorDiameter_mm: 10.24, pitch_mm: 0.941, tpi: 27, tapDrill_mm: 8.6, clearanceDrill_mm: 10.5, minorDiameter_mm: 8.2, threadAngle_deg: 60 },
+            { name: "1/4\"-18 NPT", type: "NPT", majorDiameter_mm: 13.62, pitch_mm: 1.411, tpi: 18, tapDrill_mm: 11.1, clearanceDrill_mm: 13.9, minorDiameter_mm: 11.0, threadAngle_deg: 60 },
+            // BSPT (British Standard Pipe Taper) / R Series - New Entries
+            { name: "R 1/8\" (BSPT)", type: "BSPT", majorDiameter_mm: 9.73, pitch_mm: 0.907, tpi: 28, tapDrill_mm: 8.6, clearanceDrill_mm: 10.0, minorDiameter_mm: 8.5, threadAngle_deg: 55 },
+            { name: "R 1/4\" (BSPT)", type: "BSPT", majorDiameter_mm: 13.16, pitch_mm: 1.337, tpi: 19, tapDrill_mm: 11.5, clearanceDrill_mm: 13.4, minorDiameter_mm: 11.4, threadAngle_deg: 55 },
+        ];
+
+        function handleSearch() {
+            const diameterInput = parseFloat(document.getElementById('diameter').value);
+            const pitchInput = parseFloat(document.getElementById('pitch').value);
+            const pitchUnit = document.getElementById('pitchUnit').value;
+            const threadForm = document.querySelector('input[name="threadForm"]:checked').value;
+
+            if (isNaN(diameterInput) || isNaN(pitchInput)) {
+                alert("Please enter valid numbers for diameter and pitch.");
+                return;
+            }
+
+            const inputPitchMm = pitchUnit === 'tpi' ? 25.4 / pitchInput : pitchInput;
+
+            const results = findAndSortThreads(diameterInput, inputPitchMm, threadForm);
+            displayResults(results);
+            document.getElementById('resultsContainer').style.display = 'block';
+            openTab(event, document.querySelector('.tabs button.active').id.replace('tab',''), true);
+        }
+
+        function findAndSortThreads(diameterInput, inputPitchMm, threadForm) {
+            let potentialMatches = threadDatabase.map(thread => {
+                const dbPitchMm = thread.pitch_mm || (thread.tpi ? 25.4 / thread.tpi : null);
+                if (!dbPitchMm) return null;
+
+                let diameterDiff = Math.abs(thread.majorDiameter_mm - diameterInput);
+                let pitchDiff = Math.abs(dbPitchMm - inputPitchMm);
+
+                if (threadForm === 'external') {
+                    if (thread.majorDiameter_mm < diameterInput) return null;
+                } else {
+                    if (thread.majorDiameter_mm > diameterInput) return null;
+                }
+
+                if (diameterDiff > (1.80 * inputPitchMm)) {
+                    return null;
+                }
+                
+                let score = (pitchDiff * 100) + (diameterDiff * 10);
+                
+                let normDiaDiff = Math.min(1, diameterDiff / 2);
+                let normPitchDiff = Math.min(1, pitchDiff / 0.5);
+                let matchPercentage = Math.max(0, (1 - (normDiaDiff * 0.4 + normPitchDiff * 0.6)) * 100);
+
+                return { ...thread, dbPitchMm, diameterDiff, pitchDiff, score, matchPercentage };
+            }).filter(match => match !== null);
+
+            potentialMatches.sort((a, b) => {
+                const aIsMetric = a.type.toLowerCase().includes("metric");
+                const bIsMetric = b.type.toLowerCase().includes("metric");
+
+                if (aIsMetric && !bIsMetric) return -1;
+                if (!aIsMetric && bIsMetric) return 1;
+                
+                if (a.score < b.score) return -1;
+                if (a.score > b.score) return 1;
+
+                return b.matchPercentage - a.matchPercentage;
+            });
+            return potentialMatches;
+        }
+
+        function displayResults(sortedMatches) {
+            const numResultsToShow = 3; 
+
+            const lists = {
+                Metric: document.getElementById('metricResultsList'),
+                Imperial: document.getElementById('imperialResultsList'),
+                PipeAcme: document.getElementById('pipeAcmeResultsList') // Changed ID
+            };
+
+            for (const key in lists) {
+                lists[key].innerHTML = ''; 
+            }
+
+            let counts = { Metric: 0, Imperial: 0, PipeAcme: 0 };
+
+            sortedMatches.forEach(match => {
+                let category = null;
+                const typeLower = match.type.toLowerCase();
+
+                if (typeLower.includes("metric")) category = "Metric";
+                else if (["unc", "unf", "ba"].some(t => typeLower.includes(t))) category = "Imperial";
+                else if (["acme", "npt", "bspt"].some(t => typeLower.includes(t))) category = "PipeAcme";
+
+
+                if (category && counts[category] < numResultsToShow) {
+                    const listItem = document.createElement('li');
+                    let detailsHtml = `
+                        <div class="details">
+                            <strong>${match.name}</strong> (${match.type})<br>
+                            <span>Std Ø: ${match.majorDiameter_mm.toFixed(2)} mm, Std Pitch: ${match.dbPitchMm.toFixed(3)} mm ${match.tpi ? `(${match.tpi} TPI)` : ''}</span><br>
+                            <div class="extra-info">`; // Container for new fields
+                    
+                    if (match.tapDrill_mm !== undefined) detailsHtml += `<span>Tap Drill: ${match.tapDrill_mm} mm</span><br>`;
+                    if (match.clearanceDrill_mm !== undefined) detailsHtml += `<span>Clearance Drill: ${match.clearanceDrill_mm} mm</span><br>`;
+                    if (match.minorDiameter_mm !== undefined) detailsHtml += `<span>Minor Ø: ${match.minorDiameter_mm.toFixed(2)} mm</span><br>`;
+                    if (match.threadAngle_deg !== undefined) detailsHtml += `<span>Angle: ${match.threadAngle_deg}°</span><br>`;
+                    
+                    detailsHtml += `</div></div>`; // Close extra-info and details
+                    
+                    listItem.innerHTML = `
+                        ${detailsHtml}
+                        <div class="match-percent">${match.matchPercentage.toFixed(1)}% Match</div>
+                    `;
+                    lists[category].appendChild(listItem);
+                    counts[category]++;
+                }
+            });
+
+            for (const key in lists) {
+                if (counts[key] === 0) {
+                    lists[key].innerHTML = '<li>No close matches found in this category.</li>';
+                }
+            }
+        }
+
+        function openTab(evt, tabName, forceOpen = false) {
+            let i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tabs")[0].getElementsByTagName("button");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            
+            if (evt && evt.currentTarget) {
+                 evt.currentTarget.className += " active";
+            } else {
+                document.getElementById('tab' + tabName).className += " active";
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            document.getElementById('tabMetric').click(); 
+        });
+
+    </script>
+</body>
+</html>
