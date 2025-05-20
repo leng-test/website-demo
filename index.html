@@ -80,7 +80,7 @@
             <div class="tabs">
                 <button id="tabMetric" onclick="openTab(event, 'Metric')" class="active">Metric</button>
                 <button id="tabImperial" onclick="openTab(event, 'Imperial')">Imperial (UNC/UNF/BA)</button>
-                <button id="tabPipeAcme" onclick="openTab(event, 'PipeAcme')">Pipe & ACME</button> {/* Changed Tab Name & ID */}
+                <button id="tabPipeAcme" onclick="openTab(event, 'PipeAcme')">Pipe, ACME & Tr</button> {/* Changed Tab Name & ID */}
             </div>
 
             <div id="Metric" class="tab-content">
@@ -97,55 +97,176 @@
 
     <script>
         const threadDatabase = [
-            // Metric Coarse - Added new fields
+            // Metric Coarse (ISO 68-1, ISO 261, ISO 724) - Thread angle 60 deg
+            { name: "M1x0.25", type: "Metric Coarse", majorDiameter_mm: 1.0, pitch_mm: 0.25, tapDrill_mm: 0.75, clearanceDrill_mm: 1.1, minorDiameter_mm: 0.729, threadAngle_deg: 60 },
+            { name: "M1.2x0.25", type: "Metric Coarse", majorDiameter_mm: 1.2, pitch_mm: 0.25, tapDrill_mm: 0.95, clearanceDrill_mm: 1.3, minorDiameter_mm: 0.929, threadAngle_deg: 60 },
+            { name: "M1.4x0.3", type: "Metric Coarse", majorDiameter_mm: 1.4, pitch_mm: 0.3, tapDrill_mm: 1.1, clearanceDrill_mm: 1.5, minorDiameter_mm: 1.075, threadAngle_deg: 60 },
             { name: "M1.6x0.35", type: "Metric Coarse", majorDiameter_mm: 1.6, pitch_mm: 0.35, tapDrill_mm: 1.25, clearanceDrill_mm: 1.8, minorDiameter_mm: 1.221, threadAngle_deg: 60 },
+            { name: "M1.8x0.35", type: "Metric Coarse", majorDiameter_mm: 1.8, pitch_mm: 0.35, tapDrill_mm: 1.45, clearanceDrill_mm: 2.0, minorDiameter_mm: 1.421, threadAngle_deg: 60 },
             { name: "M2x0.4", type: "Metric Coarse", majorDiameter_mm: 2.0, pitch_mm: 0.4, tapDrill_mm: 1.6, clearanceDrill_mm: 2.2, minorDiameter_mm: 1.567, threadAngle_deg: 60 },
+            { name: "M2.2x0.45", type: "Metric Coarse", majorDiameter_mm: 2.2, pitch_mm: 0.45, tapDrill_mm: 1.75, clearanceDrill_mm: 2.4, minorDiameter_mm: 1.713, threadAngle_deg: 60 },
             { name: "M2.5x0.45", type: "Metric Coarse", majorDiameter_mm: 2.5, pitch_mm: 0.45, tapDrill_mm: 2.05, clearanceDrill_mm: 2.7, minorDiameter_mm: 2.013, threadAngle_deg: 60 },
             { name: "M3x0.5", type: "Metric Coarse", majorDiameter_mm: 3.0, pitch_mm: 0.5, tapDrill_mm: 2.5, clearanceDrill_mm: 3.2, minorDiameter_mm: 2.459, threadAngle_deg: 60 },
             { name: "M3.5x0.6", type: "Metric Coarse", majorDiameter_mm: 3.5, pitch_mm: 0.6, tapDrill_mm: 2.9, clearanceDrill_mm: 3.7, minorDiameter_mm: 2.850, threadAngle_deg: 60 },
             { name: "M4x0.7", type: "Metric Coarse", majorDiameter_mm: 4.0, pitch_mm: 0.7, tapDrill_mm: 3.3, clearanceDrill_mm: 4.2, minorDiameter_mm: 3.242, threadAngle_deg: 60 },
+            { name: "M4.5x0.75", type: "Metric Coarse", majorDiameter_mm: 4.5, pitch_mm: 0.75, tapDrill_mm: 3.75, clearanceDrill_mm: 4.7, minorDiameter_mm: 3.688, threadAngle_deg: 60 },
             { name: "M5x0.8", type: "Metric Coarse", majorDiameter_mm: 5.0, pitch_mm: 0.8, tapDrill_mm: 4.2, clearanceDrill_mm: 5.2, minorDiameter_mm: 4.134, threadAngle_deg: 60 },
             { name: "M6x1.0", type: "Metric Coarse", majorDiameter_mm: 6.0, pitch_mm: 1.0, tapDrill_mm: 5.0, clearanceDrill_mm: 6.2, minorDiameter_mm: 4.917, threadAngle_deg: 60 },
+            { name: "M7x1.0", type: "Metric Coarse", majorDiameter_mm: 7.0, pitch_mm: 1.0, tapDrill_mm: 6.0, clearanceDrill_mm: 7.2, minorDiameter_mm: 5.917, threadAngle_deg: 60 },
             { name: "M8x1.25", type: "Metric Coarse", majorDiameter_mm: 8.0, pitch_mm: 1.25, tapDrill_mm: 6.8, clearanceDrill_mm: 8.2, minorDiameter_mm: 6.647, threadAngle_deg: 60 },
             { name: "M10x1.5", type: "Metric Coarse", majorDiameter_mm: 10.0, pitch_mm: 1.5, tapDrill_mm: 8.5, clearanceDrill_mm: 10.2, minorDiameter_mm: 8.376, threadAngle_deg: 60 },
             { name: "M12x1.75", type: "Metric Coarse", majorDiameter_mm: 12.0, pitch_mm: 1.75, tapDrill_mm: 10.2, clearanceDrill_mm: 12.5, minorDiameter_mm: 10.106, threadAngle_deg: 60 },
+            { name: "M14x2.0", type: "Metric Coarse", majorDiameter_mm: 14.0, pitch_mm: 2.0, tapDrill_mm: 12.0, clearanceDrill_mm: 14.5, minorDiameter_mm: 11.835, threadAngle_deg: 60 },
             { name: "M16x2.0", type: "Metric Coarse", majorDiameter_mm: 16.0, pitch_mm: 2.0, tapDrill_mm: 14.0, clearanceDrill_mm: 16.5, minorDiameter_mm: 13.835, threadAngle_deg: 60 },
+            { name: "M18x2.5", type: "Metric Coarse", majorDiameter_mm: 18.0, pitch_mm: 2.5, tapDrill_mm: 15.5, clearanceDrill_mm: 18.5, minorDiameter_mm: 15.294, threadAngle_deg: 60 },
             { name: "M20x2.5", type: "Metric Coarse", majorDiameter_mm: 20.0, pitch_mm: 2.5, tapDrill_mm: 17.5, clearanceDrill_mm: 20.5, minorDiameter_mm: 17.294, threadAngle_deg: 60 },
-            // Metric Fine - Added new fields
+            { name: "M22x2.5", type: "Metric Coarse", majorDiameter_mm: 22.0, pitch_mm: 2.5, tapDrill_mm: 19.5, clearanceDrill_mm: 22.5, minorDiameter_mm: 19.294, threadAngle_deg: 60 },
+            { name: "M24x3.0", type: "Metric Coarse", majorDiameter_mm: 24.0, pitch_mm: 3.0, tapDrill_mm: 21.0, clearanceDrill_mm: 24.5, minorDiameter_mm: 20.752, threadAngle_deg: 60 },
+            { name: "M27x3.0", type: "Metric Coarse", majorDiameter_mm: 27.0, pitch_mm: 3.0, tapDrill_mm: 24.0, clearanceDrill_mm: 27.5, minorDiameter_mm: 23.752, threadAngle_deg: 60 },
+            { name: "M30x3.5", type: "Metric Coarse", majorDiameter_mm: 30.0, pitch_mm: 3.5, tapDrill_mm: 26.5, clearanceDrill_mm: 30.5, minorDiameter_mm: 26.211, threadAngle_deg: 60 },
+
+            // Metric Fine (ISO 261, ISO 724) - Thread angle 60 deg
+            { name: "M1x0.2 (Fine)", type: "Metric Fine", majorDiameter_mm: 1.0, pitch_mm: 0.2, tapDrill_mm: 0.8, clearanceDrill_mm: 1.1, minorDiameter_mm: 0.783, threadAngle_deg: 60 },
+            { name: "M2x0.25 (Fine)", type: "Metric Fine", majorDiameter_mm: 2.0, pitch_mm: 0.25, tapDrill_mm: 1.75, clearanceDrill_mm: 2.2, minorDiameter_mm: 1.729, threadAngle_deg: 60 },
+            { name: "M3x0.35 (Fine)", type: "Metric Fine", majorDiameter_mm: 3.0, pitch_mm: 0.35, tapDrill_mm: 2.65, clearanceDrill_mm: 3.2, minorDiameter_mm: 2.621, threadAngle_deg: 60 },
+            { name: "M4x0.5 (Fine)", type: "Metric Fine", majorDiameter_mm: 4.0, pitch_mm: 0.5, tapDrill_mm: 3.5, clearanceDrill_mm: 4.2, minorDiameter_mm: 3.459, threadAngle_deg: 60 },
+            { name: "M5x0.5 (Fine)", type: "Metric Fine", majorDiameter_mm: 5.0, pitch_mm: 0.5, tapDrill_mm: 4.5, clearanceDrill_mm: 5.2, minorDiameter_mm: 4.459, threadAngle_deg: 60 },
+            { name: "M6x0.75 (Fine)", type: "Metric Fine", majorDiameter_mm: 6.0, pitch_mm: 0.75, tapDrill_mm: 5.25, clearanceDrill_mm: 6.2, minorDiameter_mm: 5.188, threadAngle_deg: 60 },
+            { name: "M8x0.75 (Fine)", type: "Metric Fine", majorDiameter_mm: 8.0, pitch_mm: 0.75, tapDrill_mm: 7.25, clearanceDrill_mm: 8.2, minorDiameter_mm: 7.188, threadAngle_deg: 60 },
             { name: "M8x1.0 (Fine)", type: "Metric Fine", majorDiameter_mm: 8.0, pitch_mm: 1.0, tapDrill_mm: 7.0, clearanceDrill_mm: 8.2, minorDiameter_mm: 6.917, threadAngle_deg: 60 },
+            { name: "M10x0.75 (Fine)", type: "Metric Fine", majorDiameter_mm: 10.0, pitch_mm: 0.75, tapDrill_mm: 9.25, clearanceDrill_mm: 10.2, minorDiameter_mm: 9.188, threadAngle_deg: 60 },
+            { name: "M10x1.0 (Fine)", type: "Metric Fine", majorDiameter_mm: 10.0, pitch_mm: 1.0, tapDrill_mm: 9.0, clearanceDrill_mm: 10.2, minorDiameter_mm: 8.917, threadAngle_deg: 60 },
             { name: "M10x1.25 (Fine)", type: "Metric Fine", majorDiameter_mm: 10.0, pitch_mm: 1.25, tapDrill_mm: 8.75, clearanceDrill_mm: 10.2, minorDiameter_mm: 8.647, threadAngle_deg: 60 },
+            { name: "M12x1.0 (Fine)", type: "Metric Fine", majorDiameter_mm: 12.0, pitch_mm: 1.0, tapDrill_mm: 11.0, clearanceDrill_mm: 12.5, minorDiameter_mm: 10.917, threadAngle_deg: 60 },
             { name: "M12x1.25 (Fine)", type: "Metric Fine", majorDiameter_mm: 12.0, pitch_mm: 1.25, tapDrill_mm: 10.75, clearanceDrill_mm: 12.5, minorDiameter_mm: 10.647, threadAngle_deg: 60 },
             { name: "M12x1.5 (Fine)", type: "Metric Fine", majorDiameter_mm: 12.0, pitch_mm: 1.5, tapDrill_mm: 10.5, clearanceDrill_mm: 12.5, minorDiameter_mm: 10.376, threadAngle_deg: 60 },
+            { name: "M14x1.5 (Fine)", type: "Metric Fine", majorDiameter_mm: 14.0, pitch_mm: 1.5, tapDrill_mm: 12.5, clearanceDrill_mm: 14.5, minorDiameter_mm: 12.376, threadAngle_deg: 60 },
+            { name: "M16x1.5 (Fine)", type: "Metric Fine", majorDiameter_mm: 16.0, pitch_mm: 1.5, tapDrill_mm: 14.5, clearanceDrill_mm: 16.5, minorDiameter_mm: 14.376, threadAngle_deg: 60 },
+            { name: "M18x1.5 (Fine)", type: "Metric Fine", majorDiameter_mm: 18.0, pitch_mm: 1.5, tapDrill_mm: 16.5, clearanceDrill_mm: 18.5, minorDiameter_mm: 16.376, threadAngle_deg: 60 },
+            { name: "M20x1.0 (Fine)", type: "Metric Fine", majorDiameter_mm: 20.0, pitch_mm: 1.0, tapDrill_mm: 19.0, clearanceDrill_mm: 20.5, minorDiameter_mm: 18.917, threadAngle_deg: 60 },
             { name: "M20x1.5 (Fine)", type: "Metric Fine", majorDiameter_mm: 20.0, pitch_mm: 1.5, tapDrill_mm: 18.5, clearanceDrill_mm: 20.5, minorDiameter_mm: 18.376, threadAngle_deg: 60 },
-            // UNC (Unified National Coarse) - Imperial - Added new fields
+            { name: "M22x1.5 (Fine)", type: "Metric Fine", majorDiameter_mm: 22.0, pitch_mm: 1.5, tapDrill_mm: 20.5, clearanceDrill_mm: 22.5, minorDiameter_mm: 20.376, threadAngle_deg: 60 },
+            { name: "M24x1.5 (Fine)", type: "Metric Fine", majorDiameter_mm: 24.0, pitch_mm: 1.5, tapDrill_mm: 22.5, clearanceDrill_mm: 24.5, minorDiameter_mm: 22.376, threadAngle_deg: 60 },
+            { name: "M24x2.0 (Fine)", type: "Metric Fine", majorDiameter_mm: 24.0, pitch_mm: 2.0, tapDrill_mm: 22.0, clearanceDrill_mm: 24.5, minorDiameter_mm: 21.835, threadAngle_deg: 60 },
+
+            // UNC (Unified National Coarse) - ANSI B1.1 - Thread angle 60 deg
+            { name: "#0-80 UNC", type: "UNC", majorDiameter_mm: 1.524, pitch_mm: 0.3175, tpi: 80, tapDrill_mm: 1.25, clearanceDrill_mm: 1.6, minorDiameter_mm: 1.16, threadAngle_deg: 60 },
+            { name: "#1-64 UNC", type: "UNC", majorDiameter_mm: 1.854, pitch_mm: 0.3969, tpi: 64, tapDrill_mm: 1.50, clearanceDrill_mm: 1.9, minorDiameter_mm: 1.40, threadAngle_deg: 60 },
+            { name: "#2-56 UNC", type: "UNC", majorDiameter_mm: 2.184, pitch_mm: 0.4536, tpi: 56, tapDrill_mm: 1.80, clearanceDrill_mm: 2.3, minorDiameter_mm: 1.69, threadAngle_deg: 60 },
+            { name: "#3-48 UNC", type: "UNC", majorDiameter_mm: 2.515, pitch_mm: 0.5292, tpi: 48, tapDrill_mm: 2.10, clearanceDrill_mm: 2.6, minorDiameter_mm: 1.93, threadAngle_deg: 60 },
             { name: "#4-40 UNC", type: "UNC", majorDiameter_mm: 2.845, pitch_mm: 0.635, tpi: 40, tapDrill_mm: 2.35, clearanceDrill_mm: 3.0, minorDiameter_mm: 2.12, threadAngle_deg: 60 },
-            { name: "#6-32 UNC", type: "UNC", majorDiameter_mm: 3.505, pitch_mm: 0.794, tpi: 32, tapDrill_mm: 2.85, clearanceDrill_mm: 3.7, minorDiameter_mm: 2.60, threadAngle_deg: 60 },
-            { name: "#8-32 UNC", type: "UNC", majorDiameter_mm: 4.166, pitch_mm: 0.794, tpi: 32, tapDrill_mm: 3.50, clearanceDrill_mm: 4.3, minorDiameter_mm: 3.26, threadAngle_deg: 60 },
-            { name: "#10-24 UNC", type: "UNC", majorDiameter_mm: 4.826, pitch_mm: 1.058, tpi: 24, tapDrill_mm: 3.90, clearanceDrill_mm: 5.0, minorDiameter_mm: 3.65, threadAngle_deg: 60 },
+            { name: "#5-40 UNC", type: "UNC", majorDiameter_mm: 3.175, pitch_mm: 0.635, tpi: 40, tapDrill_mm: 2.65, clearanceDrill_mm: 3.3, minorDiameter_mm: 2.45, threadAngle_deg: 60 },
+            { name: "#6-32 UNC", type: "UNC", majorDiameter_mm: 3.505, pitch_mm: 0.7938, tpi: 32, tapDrill_mm: 2.85, clearanceDrill_mm: 3.7, minorDiameter_mm: 2.60, threadAngle_deg: 60 },
+            { name: "#8-32 UNC", type: "UNC", majorDiameter_mm: 4.166, pitch_mm: 0.7938, tpi: 32, tapDrill_mm: 3.50, clearanceDrill_mm: 4.3, minorDiameter_mm: 3.26, threadAngle_deg: 60 },
+            { name: "#10-24 UNC", type: "UNC", majorDiameter_mm: 4.826, pitch_mm: 1.0583, tpi: 24, tapDrill_mm: 3.90, clearanceDrill_mm: 5.0, minorDiameter_mm: 3.65, threadAngle_deg: 60 },
+            { name: "#12-24 UNC", type: "UNC", majorDiameter_mm: 5.486, pitch_mm: 1.0583, tpi: 24, tapDrill_mm: 4.50, clearanceDrill_mm: 5.7, minorDiameter_mm: 4.31, threadAngle_deg: 60 },
             { name: "1/4\"-20 UNC", type: "UNC", majorDiameter_mm: 6.350, pitch_mm: 1.270, tpi: 20, tapDrill_mm: 5.10, clearanceDrill_mm: 6.6, minorDiameter_mm: 4.97, threadAngle_deg: 60 },
-            { name: "5/16\"-18 UNC", type: "UNC", majorDiameter_mm: 7.938, pitch_mm: 1.411, tpi: 18, tapDrill_mm: 6.60, clearanceDrill_mm: 8.2, minorDiameter_mm: 6.37, threadAngle_deg: 60 },
-            { name: "3/8\"-16 UNC", type: "UNC", majorDiameter_mm: 9.525, pitch_mm: 1.588, tpi: 16, tapDrill_mm: 8.00, clearanceDrill_mm: 9.8, minorDiameter_mm: 7.78, threadAngle_deg: 60 },
-            { name: "1/2\"-13 UNC", type: "UNC", majorDiameter_mm: 12.70, pitch_mm: 1.954, tpi: 13, tapDrill_mm: 10.8, clearanceDrill_mm: 13.0, minorDiameter_mm: 10.51, threadAngle_deg: 60 },
-            // UNF (Unified National Fine) - Imperial - Added new fields
-            { name: "#4-48 UNF", type: "UNF", majorDiameter_mm: 2.845, pitch_mm: 0.529, tpi: 48, tapDrill_mm: 2.40, clearanceDrill_mm: 3.0, minorDiameter_mm: 2.25, threadAngle_deg: 60 },
+            { name: "5/16\"-18 UNC", type: "UNC", majorDiameter_mm: 7.938, pitch_mm: 1.4111, tpi: 18, tapDrill_mm: 6.60, clearanceDrill_mm: 8.2, minorDiameter_mm: 6.37, threadAngle_deg: 60 },
+            { name: "3/8\"-16 UNC", type: "UNC", majorDiameter_mm: 9.525, pitch_mm: 1.5875, tpi: 16, tapDrill_mm: 8.00, clearanceDrill_mm: 9.8, minorDiameter_mm: 7.78, threadAngle_deg: 60 },
+            { name: "7/16\"-14 UNC", type: "UNC", majorDiameter_mm: 11.112, pitch_mm: 1.8143, tpi: 14, tapDrill_mm: 9.40, clearanceDrill_mm: 11.5, minorDiameter_mm: 9.12, threadAngle_deg: 60 },
+            { name: "1/2\"-13 UNC", type: "UNC", majorDiameter_mm: 12.700, pitch_mm: 1.9538, tpi: 13, tapDrill_mm: 10.8, clearanceDrill_mm: 13.0, minorDiameter_mm: 10.51, threadAngle_deg: 60 },
+            { name: "9/16\"-12 UNC", type: "UNC", majorDiameter_mm: 14.288, pitch_mm: 2.1167, tpi: 12, tapDrill_mm: 12.2, clearanceDrill_mm: 14.6, minorDiameter_mm: 11.93, threadAngle_deg: 60 },
+            { name: "5/8\"-11 UNC", type: "UNC", majorDiameter_mm: 15.875, pitch_mm: 2.3091, tpi: 11, tapDrill_mm: 13.5, clearanceDrill_mm: 16.2, minorDiameter_mm: 13.34, threadAngle_deg: 60 },
+            { name: "3/4\"-10 UNC", type: "UNC", majorDiameter_mm: 19.050, pitch_mm: 2.540, tpi: 10, tapDrill_mm: 16.5, clearanceDrill_mm: 19.4, minorDiameter_mm: 16.20, threadAngle_deg: 60 },
+            { name: "7/8\"-9 UNC", type: "UNC", majorDiameter_mm: 22.225, pitch_mm: 2.8222, tpi: 9, tapDrill_mm: 19.5, clearanceDrill_mm: 22.6, minorDiameter_mm: 19.04, threadAngle_deg: 60 },
+            { name: "1\"-8 UNC", type: "UNC", majorDiameter_mm: 25.400, pitch_mm: 3.175, tpi: 8, tapDrill_mm: 22.25, clearanceDrill_mm: 25.8, minorDiameter_mm: 21.84, threadAngle_deg: 60 },
+
+            // UNF (Unified National Fine) - ANSI B1.1 - Thread angle 60 deg
+            { name: "#0-80 UNF", type: "UNF", majorDiameter_mm: 1.524, pitch_mm: 0.3175, tpi: 80, tapDrill_mm: 1.25, clearanceDrill_mm: 1.6, minorDiameter_mm: 1.16, threadAngle_deg: 60 }, // Same as #0-80 UNC as per some charts for smallest sizes
+            { name: "#1-72 UNF", type: "UNF", majorDiameter_mm: 1.854, pitch_mm: 0.3528, tpi: 72, tapDrill_mm: 1.55, clearanceDrill_mm: 1.9, minorDiameter_mm: 1.45, threadAngle_deg: 60 },
+            { name: "#2-64 UNF", type: "UNF", majorDiameter_mm: 2.184, pitch_mm: 0.3969, tpi: 64, tapDrill_mm: 1.85, clearanceDrill_mm: 2.3, minorDiameter_mm: 1.73, threadAngle_deg: 60 },
+            { name: "#3-56 UNF", type: "UNF", majorDiameter_mm: 2.515, pitch_mm: 0.4536, tpi: 56, tapDrill_mm: 2.15, clearanceDrill_mm: 2.6, minorDiameter_mm: 2.01, threadAngle_deg: 60 },
+            { name: "#4-48 UNF", type: "UNF", majorDiameter_mm: 2.845, pitch_mm: 0.5292, tpi: 48, tapDrill_mm: 2.40, clearanceDrill_mm: 3.0, minorDiameter_mm: 2.25, threadAngle_deg: 60 },
+            { name: "#5-44 UNF", type: "UNF", majorDiameter_mm: 3.175, pitch_mm: 0.5773, tpi: 44, tapDrill_mm: 2.70, clearanceDrill_mm: 3.3, minorDiameter_mm: 2.52, threadAngle_deg: 60 },
             { name: "#6-40 UNF", type: "UNF", majorDiameter_mm: 3.505, pitch_mm: 0.635, tpi: 40, tapDrill_mm: 2.95, clearanceDrill_mm: 3.7, minorDiameter_mm: 2.78, threadAngle_deg: 60 },
-            { name: "#8-36 UNF", type: "UNF", majorDiameter_mm: 4.166, pitch_mm: 0.706, tpi: 36, tapDrill_mm: 3.50, clearanceDrill_mm: 4.3, minorDiameter_mm: 3.36, threadAngle_deg: 60 },
-            { name: "#10-32 UNF", type: "UNF", majorDiameter_mm: 4.826, pitch_mm: 0.794, tpi: 32, tapDrill_mm: 4.10, clearanceDrill_mm: 5.0, minorDiameter_mm: 3.93, threadAngle_deg: 60 },
-            { name: "1/4\"-28 UNF", type: "UNF", majorDiameter_mm: 6.350, pitch_mm: 0.907, tpi: 28, tapDrill_mm: 5.50, clearanceDrill_mm: 6.6, minorDiameter_mm: 5.33, threadAngle_deg: 60 },
-            // ACME Threads - Added new fields
-            { name: "1/4\"-16 ACME", type: "ACME", majorDiameter_mm: 6.35, pitch_mm: 1.5875, tpi: 16, tapDrill_mm: 4.76, clearanceDrill_mm: 6.5, minorDiameter_mm: 4.7625, threadAngle_deg: 29 },
-            { name: "1/2\"-10 ACME", type: "ACME", majorDiameter_mm: 12.7, pitch_mm: 2.54, tpi: 10, tapDrill_mm: 10.16, clearanceDrill_mm: 13.0, minorDiameter_mm: 10.16, threadAngle_deg: 29 },
-            { name: "3/4\"-6 ACME", type: "ACME", majorDiameter_mm: 19.05, pitch_mm: 4.233, tpi: 6, tapDrill_mm: 14.82, clearanceDrill_mm: 19.3, minorDiameter_mm: 14.817, threadAngle_deg: 29 },
-            // BA (British Association) - New Entries
+            { name: "#8-36 UNF", type: "UNF", majorDiameter_mm: 4.166, pitch_mm: 0.7056, tpi: 36, tapDrill_mm: 3.50, clearanceDrill_mm: 4.3, minorDiameter_mm: 3.36, threadAngle_deg: 60 },
+            { name: "#10-32 UNF", type: "UNF", majorDiameter_mm: 4.826, pitch_mm: 0.7938, tpi: 32, tapDrill_mm: 4.10, clearanceDrill_mm: 5.0, minorDiameter_mm: 3.93, threadAngle_deg: 60 },
+            { name: "#12-28 UNF", type: "UNF", majorDiameter_mm: 5.486, pitch_mm: 0.9071, tpi: 28, tapDrill_mm: 4.70, clearanceDrill_mm: 5.7, minorDiameter_mm: 4.46, threadAngle_deg: 60 },
+            { name: "1/4\"-28 UNF", type: "UNF", majorDiameter_mm: 6.350, pitch_mm: 0.9071, tpi: 28, tapDrill_mm: 5.50, clearanceDrill_mm: 6.6, minorDiameter_mm: 5.33, threadAngle_deg: 60 },
+            { name: "5/16\"-24 UNF", type: "UNF", majorDiameter_mm: 7.938, pitch_mm: 1.0583, tpi: 24, tapDrill_mm: 6.90, clearanceDrill_mm: 8.2, minorDiameter_mm: 6.72, threadAngle_deg: 60 },
+            { name: "3/8\"-24 UNF", type: "UNF", majorDiameter_mm: 9.525, pitch_mm: 1.0583, tpi: 24, tapDrill_mm: 8.50, clearanceDrill_mm: 9.8, minorDiameter_mm: 8.32, threadAngle_deg: 60 },
+            { name: "7/16\"-20 UNF", type: "UNF", majorDiameter_mm: 11.112, pitch_mm: 1.270, tpi: 20, tapDrill_mm: 9.90, clearanceDrill_mm: 11.5, minorDiameter_mm: 9.67, threadAngle_deg: 60 },
+            { name: "1/2\"-20 UNF", type: "UNF", majorDiameter_mm: 12.700, pitch_mm: 1.270, tpi: 20, tapDrill_mm: 11.50, clearanceDrill_mm: 13.0, minorDiameter_mm: 11.27, threadAngle_deg: 60 },
+            { name: "9/16\"-18 UNF", type: "UNF", majorDiameter_mm: 14.288, pitch_mm: 1.4111, tpi: 18, tapDrill_mm: 12.90, clearanceDrill_mm: 14.6, minorDiameter_mm: 12.67, threadAngle_deg: 60 },
+            { name: "5/8\"-18 UNF", type: "UNF", majorDiameter_mm: 15.875, pitch_mm: 1.4111, tpi: 18, tapDrill_mm: 14.50, clearanceDrill_mm: 16.2, minorDiameter_mm: 14.27, threadAngle_deg: 60 },
+            { name: "3/4\"-16 UNF", type: "UNF", majorDiameter_mm: 19.050, pitch_mm: 1.5875, tpi: 16, tapDrill_mm: 17.50, clearanceDrill_mm: 19.4, minorDiameter_mm: 17.28, threadAngle_deg: 60 },
+            { name: "7/8\"-14 UNF", type: "UNF", majorDiameter_mm: 22.225, pitch_mm: 1.8143, tpi: 14, tapDrill_mm: 20.40, clearanceDrill_mm: 22.6, minorDiameter_mm: 20.22, threadAngle_deg: 60 },
+            { name: "1\"-12 UNF", type: "UNF", majorDiameter_mm: 25.400, pitch_mm: 2.1167, tpi: 12, tapDrill_mm: 23.25, clearanceDrill_mm: 25.8, minorDiameter_mm: 22.93, threadAngle_deg: 60 },
+
+            // UNEF (Unified National Extra Fine) - ANSI B1.1 - Thread angle 60 deg
+            { name: "#12-32 UNEF", type: "UNEF", majorDiameter_mm: 5.486, pitch_mm: 0.7938, tpi: 32, tapDrill_mm: 4.80, clearanceDrill_mm: 5.7, minorDiameter_mm: 4.59, threadAngle_deg: 60 },
+            { name: "1/4\"-32 UNEF", type: "UNEF", majorDiameter_mm: 6.350, pitch_mm: 0.7938, tpi: 32, tapDrill_mm: 5.60, clearanceDrill_mm: 6.6, minorDiameter_mm: 5.45, threadAngle_deg: 60 },
+            { name: "5/16\"-32 UNEF", type: "UNEF", majorDiameter_mm: 7.938, pitch_mm: 0.7938, tpi: 32, tapDrill_mm: 7.20, clearanceDrill_mm: 8.2, minorDiameter_mm: 7.04, threadAngle_deg: 60 },
+            { name: "3/8\"-32 UNEF", type: "UNEF", majorDiameter_mm: 9.525, pitch_mm: 0.7938, tpi: 32, tapDrill_mm: 8.80, clearanceDrill_mm: 9.8, minorDiameter_mm: 8.63, threadAngle_deg: 60 },
+            { name: "7/16\"-28 UNEF", type: "UNEF", majorDiameter_mm: 11.112, pitch_mm: 0.9071, tpi: 28, tapDrill_mm: 10.30, clearanceDrill_mm: 11.5, minorDiameter_mm: 10.05, threadAngle_deg: 60 },
+            { name: "1/2\"-28 UNEF", type: "UNEF", majorDiameter_mm: 12.700, pitch_mm: 0.9071, tpi: 28, tapDrill_mm: 11.80, clearanceDrill_mm: 13.0, minorDiameter_mm: 11.65, threadAngle_deg: 60 },
+            { name: "9/16\"-24 UNEF", type: "UNEF", majorDiameter_mm: 14.288, pitch_mm: 1.0583, tpi: 24, tapDrill_mm: 13.30, clearanceDrill_mm: 14.6, minorDiameter_mm: 13.07, threadAngle_deg: 60 },
+            { name: "5/8\"-24 UNEF", type: "UNEF", majorDiameter_mm: 15.875, pitch_mm: 1.0583, tpi: 24, tapDrill_mm: 14.90, clearanceDrill_mm: 16.2, minorDiameter_mm: 14.67, threadAngle_deg: 60 },
+            { name: "3/4\"-20 UNEF", type: "UNEF", majorDiameter_mm: 19.050, pitch_mm: 1.2700, tpi: 20, tapDrill_mm: 17.80, clearanceDrill_mm: 19.4, minorDiameter_mm: 17.57, threadAngle_deg: 60 },
+            { name: "7/8\"-20 UNEF", type: "UNEF", majorDiameter_mm: 22.225, pitch_mm: 1.2700, tpi: 20, tapDrill_mm: 21.00, clearanceDrill_mm: 22.6, minorDiameter_mm: 20.77, threadAngle_deg: 60 },
+            { name: "1\"-20 UNEF", type: "UNEF", majorDiameter_mm: 25.400, pitch_mm: 1.2700, tpi: 20, tapDrill_mm: 24.20, clearanceDrill_mm: 25.8, minorDiameter_mm: 23.97, threadAngle_deg: 60 },
+            
+            // BA (British Association) - BS 93 - Thread angle 47.5 deg
             { name: "0BA", type: "BA", majorDiameter_mm: 6.00, pitch_mm: 1.00, tapDrill_mm: 5.0, clearanceDrill_mm: 6.2, minorDiameter_mm: 4.80, threadAngle_deg: 47.5 },
+            { name: "1BA", type: "BA", majorDiameter_mm: 5.30, pitch_mm: 0.90, tapDrill_mm: 4.4, clearanceDrill_mm: 5.5, minorDiameter_mm: 4.23, threadAngle_deg: 47.5 },
             { name: "2BA", type: "BA", majorDiameter_mm: 4.70, pitch_mm: 0.81, tapDrill_mm: 3.9, clearanceDrill_mm: 4.9, minorDiameter_mm: 3.80, threadAngle_deg: 47.5 },
+            { name: "3BA", type: "BA", majorDiameter_mm: 4.10, pitch_mm: 0.73, tapDrill_mm: 3.4, clearanceDrill_mm: 4.3, minorDiameter_mm: 3.29, threadAngle_deg: 47.5 },
             { name: "4BA", type: "BA", majorDiameter_mm: 3.60, pitch_mm: 0.66, tapDrill_mm: 3.0, clearanceDrill_mm: 3.8, minorDiameter_mm: 2.90, threadAngle_deg: 47.5 },
-            // NPT (National Pipe Thread Taper) - New Entries
-            { name: "1/8\"-27 NPT", type: "NPT", majorDiameter_mm: 10.24, pitch_mm: 0.941, tpi: 27, tapDrill_mm: 8.6, clearanceDrill_mm: 10.5, minorDiameter_mm: 8.2, threadAngle_deg: 60 },
-            { name: "1/4\"-18 NPT", type: "NPT", majorDiameter_mm: 13.62, pitch_mm: 1.411, tpi: 18, tapDrill_mm: 11.1, clearanceDrill_mm: 13.9, minorDiameter_mm: 11.0, threadAngle_deg: 60 },
-            // BSPT (British Standard Pipe Taper) / R Series - New Entries
-            { name: "R 1/8\" (BSPT)", type: "BSPT", majorDiameter_mm: 9.73, pitch_mm: 0.907, tpi: 28, tapDrill_mm: 8.6, clearanceDrill_mm: 10.0, minorDiameter_mm: 8.5, threadAngle_deg: 55 },
-            { name: "R 1/4\" (BSPT)", type: "BSPT", majorDiameter_mm: 13.16, pitch_mm: 1.337, tpi: 19, tapDrill_mm: 11.5, clearanceDrill_mm: 13.4, minorDiameter_mm: 11.4, threadAngle_deg: 55 },
+            { name: "5BA", type: "BA", majorDiameter_mm: 3.20, pitch_mm: 0.59, tapDrill_mm: 2.65, clearanceDrill_mm: 3.4, minorDiameter_mm: 2.54, threadAngle_deg: 47.5 },
+            { name: "6BA", type: "BA", majorDiameter_mm: 2.80, pitch_mm: 0.53, tapDrill_mm: 2.3, clearanceDrill_mm: 3.0, minorDiameter_mm: 2.20, threadAngle_deg: 47.5 },
+            { name: "7BA", type: "BA", majorDiameter_mm: 2.50, pitch_mm: 0.48, tapDrill_mm: 2.05, clearanceDrill_mm: 2.7, minorDiameter_mm: 1.96, threadAngle_deg: 47.5 },
+            { name: "8BA", type: "BA", majorDiameter_mm: 2.20, pitch_mm: 0.43, tapDrill_mm: 1.80, clearanceDrill_mm: 2.4, minorDiameter_mm: 1.71, threadAngle_deg: 47.5 },
+            { name: "9BA", type: "BA", majorDiameter_mm: 1.90, pitch_mm: 0.39, tapDrill_mm: 1.55, clearanceDrill_mm: 2.1, minorDiameter_mm: 1.46, threadAngle_deg: 47.5 },
+            { name: "10BA", type: "BA", majorDiameter_mm: 1.70, pitch_mm: 0.35, tapDrill_mm: 1.40, clearanceDrill_mm: 1.85, minorDiameter_mm: 1.30, threadAngle_deg: 47.5 },
+
+            // ACME Threads - ANSI B1.5 - Thread angle 29 deg
+            { name: "1/4\"-16 ACME", type: "ACME", majorDiameter_mm: 6.35, pitch_mm: 1.5875, tpi: 16, tapDrill_mm: 4.76, clearanceDrill_mm: 6.5, minorDiameter_mm: 4.7625, threadAngle_deg: 29 }, // Minor Dia = Major Dia - Pitch
+            { name: "3/8\"-12 ACME", type: "ACME", majorDiameter_mm: 9.525, pitch_mm: 2.1167, tpi: 12, tapDrill_mm: 7.41, clearanceDrill_mm: 9.8, minorDiameter_mm: 7.4083, threadAngle_deg: 29 },
+            { name: "1/2\"-10 ACME", type: "ACME", majorDiameter_mm: 12.7, pitch_mm: 2.54, tpi: 10, tapDrill_mm: 10.16, clearanceDrill_mm: 13.0, minorDiameter_mm: 10.16, threadAngle_deg: 29 },
+            { name: "5/8\"-8 ACME", type: "ACME", majorDiameter_mm: 15.875, pitch_mm: 3.175, tpi: 8, tapDrill_mm: 12.7, clearanceDrill_mm: 16.2, minorDiameter_mm: 12.7, threadAngle_deg: 29 },
+            { name: "3/4\"-6 ACME", type: "ACME", majorDiameter_mm: 19.05, pitch_mm: 4.2333, tpi: 6, tapDrill_mm: 14.82, clearanceDrill_mm: 19.3, minorDiameter_mm: 14.8167, threadAngle_deg: 29 },
+            { name: "7/8\"-6 ACME", type: "ACME", majorDiameter_mm: 22.225, pitch_mm: 4.2333, tpi: 6, tapDrill_mm: 17.99, clearanceDrill_mm: 22.5, minorDiameter_mm: 17.9917, threadAngle_deg: 29 },
+            { name: "1\"-5 ACME", type: "ACME", majorDiameter_mm: 25.4, pitch_mm: 5.08, tpi: 5, tapDrill_mm: 20.32, clearanceDrill_mm: 25.7, minorDiameter_mm: 20.32, threadAngle_deg: 29 },
+
+            // Metric Trapezoidal (Tr) Threads - ISO 2901/DIN 103 - Thread Angle 30 deg
+            // Tap drill for Tr is typically Major Dia - Pitch. Clearance is slightly larger. Minor Dia = Major Dia - Pitch
+            { name: "Tr10x2", type: "Trapezoidal", majorDiameter_mm: 10.0, pitch_mm: 2.0, tapDrill_mm: 8.0, clearanceDrill_mm: 10.5, minorDiameter_mm: 8.0, threadAngle_deg: 30 },
+            { name: "Tr12x3", type: "Trapezoidal", majorDiameter_mm: 12.0, pitch_mm: 3.0, tapDrill_mm: 9.0, clearanceDrill_mm: 12.5, minorDiameter_mm: 9.0, threadAngle_deg: 30 },
+            { name: "Tr16x4", type: "Trapezoidal", majorDiameter_mm: 16.0, pitch_mm: 4.0, tapDrill_mm: 12.0, clearanceDrill_mm: 16.5, minorDiameter_mm: 12.0, threadAngle_deg: 30 },
+            { name: "Tr20x4", type: "Trapezoidal", majorDiameter_mm: 20.0, pitch_mm: 4.0, tapDrill_mm: 16.0, clearanceDrill_mm: 20.5, minorDiameter_mm: 16.0, threadAngle_deg: 30 },
+            { name: "Tr24x5", type: "Trapezoidal", majorDiameter_mm: 24.0, pitch_mm: 5.0, tapDrill_mm: 19.0, clearanceDrill_mm: 24.5, minorDiameter_mm: 19.0, threadAngle_deg: 30 },
+            { name: "Tr28x5", type: "Trapezoidal", majorDiameter_mm: 28.0, pitch_mm: 5.0, tapDrill_mm: 23.0, clearanceDrill_mm: 28.5, minorDiameter_mm: 23.0, threadAngle_deg: 30 },
+
+            // NPT (National Pipe Thread Taper) - ANSI B1.20.1 - Thread angle 60 deg, Taper 1:16
+            // Major diameter given is often at pipe end or hand-tight engagement (L1).
+            { name: "1/16\"-27 NPT", type: "NPT", majorDiameter_mm: 7.938, pitch_mm: 0.9407, tpi: 27, tapDrill_mm: 6.10, clearanceDrill_mm: 8.0, minorDiameter_mm: 5.9, threadAngle_deg: 60 }, // Approx Major Dia
+            { name: "1/8\"-27 NPT", type: "NPT", majorDiameter_mm: 10.287, pitch_mm: 0.9407, tpi: 27, tapDrill_mm: 8.61, clearanceDrill_mm: 10.5, minorDiameter_mm: 8.2, threadAngle_deg: 60 }, //OD of pipe is 10.287 (0.405")
+            { name: "1/4\"-18 NPT", type: "NPT", majorDiameter_mm: 13.716, pitch_mm: 1.4111, tpi: 18, tapDrill_mm: 11.11, clearanceDrill_mm: 13.9, minorDiameter_mm: 11.0, threadAngle_deg: 60 },//OD of pipe is 13.716 (0.540")
+            { name: "3/8\"-18 NPT", type: "NPT", majorDiameter_mm: 17.145, pitch_mm: 1.4111, tpi: 18, tapDrill_mm: 14.50, clearanceDrill_mm: 17.4, minorDiameter_mm: 14.3, threadAngle_deg: 60 },//OD of pipe is 17.145 (0.675")
+            { name: "1/2\"-14 NPT", type: "NPT", majorDiameter_mm: 21.336, pitch_mm: 1.8143, tpi: 14, tapDrill_mm: 18.26, clearanceDrill_mm: 21.6, minorDiameter_mm: 17.9, threadAngle_deg: 60 },//OD of pipe is 21.336 (0.840")
+            { name: "3/4\"-14 NPT", type: "NPT", majorDiameter_mm: 26.670, pitch_mm: 1.8143, tpi: 14, tapDrill_mm: 23.60, clearanceDrill_mm: 26.9, minorDiameter_mm: 23.2, threadAngle_deg: 60 },//OD of pipe is 26.670 (1.050")
+            { name: "1\"-11.5 NPT", type: "NPT", majorDiameter_mm: 33.401, pitch_mm: 2.2087, tpi: 11.5, tapDrill_mm: 29.50, clearanceDrill_mm: 33.7, minorDiameter_mm: 28.9, threadAngle_deg: 60 },//OD of pipe is 33.401 (1.315")
+
+            // BSPT (British Standard Pipe Taper) / R Series - ISO 7-1, EN 10226 - Thread angle 55 deg, Taper 1:16
+            // Major diameter is of the pipe OD.
+            { name: "R 1/16\" (BSPT)", type: "BSPT", majorDiameter_mm: 7.723, pitch_mm: 0.907, tpi: 28, tapDrill_mm: 6.5, clearanceDrill_mm: 7.9, minorDiameter_mm: 6.561, threadAngle_deg: 55 },
+            { name: "R 1/8\" (BSPT)", type: "BSPT", majorDiameter_mm: 9.728, pitch_mm: 0.907, tpi: 28, tapDrill_mm: 8.6, clearanceDrill_mm: 10.0, minorDiameter_mm: 8.566, threadAngle_deg: 55 },
+            { name: "R 1/4\" (BSPT)", type: "BSPT", majorDiameter_mm: 13.157, pitch_mm: 1.337, tpi: 19, tapDrill_mm: 11.5, clearanceDrill_mm: 13.4, minorDiameter_mm: 11.445, threadAngle_deg: 55 },
+            { name: "R 3/8\" (BSPT)", type: "BSPT", majorDiameter_mm: 16.662, pitch_mm: 1.337, tpi: 19, tapDrill_mm: 15.0, clearanceDrill_mm: 16.9, minorDiameter_mm: 14.950, threadAngle_deg: 55 },
+            { name: "R 1/2\" (BSPT)", type: "BSPT", majorDiameter_mm: 20.955, pitch_mm: 1.814, tpi: 14, tapDrill_mm: 18.6, clearanceDrill_mm: 21.2, minorDiameter_mm: 18.631, threadAngle_deg: 55 },
+            { name: "R 3/4\" (BSPT)", type: "BSPT", majorDiameter_mm: 26.441, pitch_mm: 1.814, tpi: 14, tapDrill_mm: 24.1, clearanceDrill_mm: 26.7, minorDiameter_mm: 24.117, threadAngle_deg: 55 },
+            { name: "R 1\" (BSPT)", type: "BSPT", majorDiameter_mm: 33.249, pitch_mm: 2.309, tpi: 11, tapDrill_mm: 30.3, clearanceDrill_mm: 33.5, minorDiameter_mm: 30.291, threadAngle_deg: 55 },
+
+            // BSPP (British Standard Pipe Parallel) / G Series - ISO 228-1 - Thread angle 55 deg
+            // Major diameter is of the pipe OD.
+            { name: "G 1/16\"", type: "BSPP", majorDiameter_mm: 7.723, pitch_mm: 0.907, tpi: 28, tapDrill_mm: 6.84, clearanceDrill_mm: 7.9, minorDiameter_mm: 6.561, threadAngle_deg: 55 }, // Tap drill: MajorDia - 1.280655 * Pitch
+            { name: "G 1/8\"", type: "BSPP", majorDiameter_mm: 9.728, pitch_mm: 0.907, tpi: 28, tapDrill_mm: 8.85, clearanceDrill_mm: 10.0, minorDiameter_mm: 8.566, threadAngle_deg: 55 },
+            { name: "G 1/4\"", type: "BSPP", majorDiameter_mm: 13.157, pitch_mm: 1.337, tpi: 19, tapDrill_mm: 11.89, clearanceDrill_mm: 13.4, minorDiameter_mm: 11.445, threadAngle_deg: 55 },
+            { name: "G 3/8\"", type: "BSPP", majorDiameter_mm: 16.662, pitch_mm: 1.337, tpi: 19, tapDrill_mm: 15.39, clearanceDrill_mm: 16.9, minorDiameter_mm: 14.950, threadAngle_deg: 55 },
+            { name: "G 1/2\"", type: "BSPP", majorDiameter_mm: 20.955, pitch_mm: 1.814, tpi: 14, tapDrill_mm: 19.17, clearanceDrill_mm: 21.2, minorDiameter_mm: 18.631, threadAngle_deg: 55 },
+            { name: "G 5/8\"", type: "BSPP", majorDiameter_mm: 22.911, pitch_mm: 1.814, tpi: 14, tapDrill_mm: 21.13, clearanceDrill_mm: 23.2, minorDiameter_mm: 20.587, threadAngle_deg: 55 },
+            { name: "G 3/4\"", type: "BSPP", majorDiameter_mm: 26.441, pitch_mm: 1.814, tpi: 14, tapDrill_mm: 24.66, clearanceDrill_mm: 26.7, minorDiameter_mm: 24.117, threadAngle_deg: 55 },
+            { name: "G 1\"", type: "BSPP", majorDiameter_mm: 33.249, pitch_mm: 2.309, tpi: 11, tapDrill_mm: 30.93, clearanceDrill_mm: 33.5, minorDiameter_mm: 30.291, threadAngle_deg: 55 },
         ];
 
         function handleSearch() {
@@ -164,58 +285,112 @@
             const results = findAndSortThreads(diameterInput, inputPitchMm, threadForm);
             displayResults(results);
             document.getElementById('resultsContainer').style.display = 'block';
-            openTab(event, document.querySelector('.tabs button.active').id.replace('tab',''), true);
+            // Ensure the correct tab is active or default to Metric if no specific active tab makes sense
+            const activeTabButton = document.querySelector('.tabs button.active');
+            let tabToOpen = 'Metric'; // Default
+            if (activeTabButton && activeTabButton.id) {
+                tabToOpen = activeTabButton.id.replace('tab','');
+            }
+            openTab(null, tabToOpen, true); // Use null for event if not triggered by click
         }
 
         function findAndSortThreads(diameterInput, inputPitchMm, threadForm) {
             let potentialMatches = threadDatabase.map(thread => {
                 const dbPitchMm = thread.pitch_mm || (thread.tpi ? 25.4 / thread.tpi : null);
-                if (!dbPitchMm) return null;
+                if (!dbPitchMm) return null; // Should not happen if data is complete
 
-                let diameterDiff = Math.abs(thread.majorDiameter_mm - diameterInput);
+                let diameterToCompareWith = thread.majorDiameter_mm;
+                // For internal threads, if user measures the *hole to be tapped*, it's closer to tapDrill_mm.
+                // However, standard identification usually relies on nominal major diameter.
+                // The current filtering logic is based on majorDiameter_mm, which is fine for identifying a standard.
+
+                let diameterDiff = Math.abs(diameterToCompareWith - diameterInput);
                 let pitchDiff = Math.abs(dbPitchMm - inputPitchMm);
 
+                // Basic filtering based on thread form and measured diameter
+                // If external (bolt), measured diameter should be close to or slightly less than standard major diameter.
+                // If internal (nut), measured diameter (of the internal crests) should be close to standard major diameter.
+                // Or, if measuring a hole to be tapped, it would be closer to tapDrill_mm.
+                // The current logic seems to handle external threads correctly.
+                // For internal, if user measures major dia of internal thread, it's majorDiameter_mm.
                 if (threadForm === 'external') {
-                    if (thread.majorDiameter_mm < diameterInput) return null;
-                } else {
-                    if (thread.majorDiameter_mm > diameterInput) return null;
+                    // If measured diameter is significantly larger than any standard, it might not be a good fit.
+                    // Allow some tolerance for worn threads or undersized measurement.
+                    // Max major diameter of a standard external thread is usually nominal.
+                    if (diameterInput > thread.majorDiameter_mm + (0.1 * thread.majorDiameter_mm) && diameterInput > thread.majorDiameter_mm + 0.5) return null; // Allow 10% or 0.5mm over (whichever is larger)
+                    if (thread.majorDiameter_mm < diameterInput - (0.5 * dbPitchMm)) return null; // Standard major diameter should not be too much smaller than measured for a bolt
+                } else { // internal
+                    // If user measures internal thread's major diameter:
+                    if (diameterInput < thread.majorDiameter_mm - (0.1 * thread.majorDiameter_mm) && diameterInput < thread.majorDiameter_mm - 0.5) return null; // Allow 10% or 0.5mm under
+                    if (thread.majorDiameter_mm > diameterInput + (0.5 * dbPitchMm) ) return null; // Standard major diameter should not be too much larger than measured internal diameter
                 }
 
-                if (diameterDiff > (1.80 * inputPitchMm)) {
-                    return null;
+
+                // Increased tolerance for diameter difference, especially for larger pitches
+                // Max allowed diameter difference could be related to pitch, e.g., 1 to 2 times the pitch
+                // The original (1.80 * inputPitchMm) might be too restrictive or too loose depending on context.
+                // Let's use a slightly more generous fixed and pitch-related tolerance for now for initial filtering.
+                const maxDiameterDeviation = Math.max(1.0, 0.25 * thread.majorDiameter_mm); // 1mm or 25% of diameter, whichever is larger - this might be too wide.
+                                                                                         // Let's revert to something more controlled:
+                const diameterTolerance = 0.2 + (0.15 * thread.majorDiameter_mm); // Base tolerance + % of diameter
+                if (diameterDiff > diameterTolerance && diameterDiff > 1.5) { // If diff > fixed tolerance AND > overall general tolerance of 1.5mm
+                   // return null; // This filter might be too aggressive, scoring will handle it.
                 }
                 
+                // Scoring: Prioritize pitch match, then diameter match.
+                // Weight pitch difference more heavily.
+                // Pitch diff * 100 implies 0.1mm pitch diff = 10 score points.
+                // Diameter diff * 10 implies 0.1mm dia diff = 1 score point. This makes pitch 10x more important.
                 let score = (pitchDiff * 100) + (diameterDiff * 10);
                 
-                let normDiaDiff = Math.min(1, diameterDiff / 2);
-                let normPitchDiff = Math.min(1, pitchDiff / 0.5);
-                let matchPercentage = Math.max(0, (1 - (normDiaDiff * 0.4 + normPitchDiff * 0.6)) * 100);
+                // Match Percentage Calculation:
+                // Normalize differences based on typical tolerances or a fraction of the pitch/diameter.
+                // For diameter, a difference of 0.5mm might be significant for M5 but less for M20.
+                // For pitch, a difference of 0.1mm is usually significant.
+                let normDiaDiff = Math.min(1, diameterDiff / Math.max(0.25, 0.1 * thread.majorDiameter_mm)); // Normalize against 0.25mm or 10% of Dia
+                let normPitchDiff = Math.min(1, pitchDiff / Math.max(0.1, 0.1 * dbPitchMm)); // Normalize against 0.1mm or 10% of Pitch
+
+                // Heavily penalize larger pitch differences for the percentage
+                let pitchMatchFactor = Math.max(0, 1 - (pitchDiff / Math.max(0.05, 0.2 * dbPitchMm))); // Stricter pitch match for percentage
+
+                let matchPercentage = Math.max(0, ( (1 - normDiaDiff) * 0.4 + pitchMatchFactor * 0.6) * 100);
+
+
+                // Bonus for exact/very close pitch match
+                if (pitchDiff < 0.02) { // Very close pitch
+                    score -= 50; // Lower score is better
+                    matchPercentage = Math.max(matchPercentage, Math.min(100, matchPercentage + 15));
+                }
+                // Bonus for exact/very close diameter match
+                if (diameterDiff < 0.05) { // Very close diameter
+                    score -= 20;
+                    matchPercentage = Math.max(matchPercentage, Math.min(100, matchPercentage + 10));
+                }
+                
+                // Ensure match percentage is capped at 100
+                matchPercentage = Math.min(100, matchPercentage);
+
 
                 return { ...thread, dbPitchMm, diameterDiff, pitchDiff, score, matchPercentage };
-            }).filter(match => match !== null);
+            }).filter(match => match !== null && match.matchPercentage > 10); // Filter out very low percentage matches early
 
             potentialMatches.sort((a, b) => {
-                const aIsMetric = a.type.toLowerCase().includes("metric");
-                const bIsMetric = b.type.toLowerCase().includes("metric");
-
-                if (aIsMetric && !bIsMetric) return -1;
-                if (!aIsMetric && bIsMetric) return 1;
-                
+                // Prioritize by score (lower is better)
                 if (a.score < b.score) return -1;
                 if (a.score > b.score) return 1;
-
+                // If scores are equal, then by match percentage (higher is better)
                 return b.matchPercentage - a.matchPercentage;
             });
             return potentialMatches;
         }
 
         function displayResults(sortedMatches) {
-            const numResultsToShow = 3; 
+            const numResultsToShow = 5; // Show top 5 for each category
 
             const lists = {
                 Metric: document.getElementById('metricResultsList'),
                 Imperial: document.getElementById('imperialResultsList'),
-                PipeAcme: document.getElementById('pipeAcmeResultsList') // Changed ID
+                PipeAcme: document.getElementById('pipeAcmeResultsList')
             };
 
             for (const key in lists) {
@@ -228,9 +403,9 @@
                 let category = null;
                 const typeLower = match.type.toLowerCase();
 
-                if (typeLower.includes("metric")) category = "Metric";
-                else if (["unc", "unf", "ba"].some(t => typeLower.includes(t))) category = "Imperial";
-                else if (["acme", "npt", "bspt"].some(t => typeLower.includes(t))) category = "PipeAcme";
+                if (typeLower.includes("metric coarse") || typeLower.includes("metric fine")) category = "Metric";
+                else if (["unc", "unf", "unef", "ba"].some(t => typeLower.includes(t))) category = "Imperial";
+                else if (["acme", "npt", "bspt", "bspp", "trapezoidal"].some(t => typeLower.includes(t))) category = "PipeAcme";
 
 
                 if (category && counts[category] < numResultsToShow) {
@@ -239,14 +414,15 @@
                         <div class="details">
                             <strong>${match.name}</strong> (${match.type})<br>
                             <span>Std Ø: ${match.majorDiameter_mm.toFixed(2)} mm, Std Pitch: ${match.dbPitchMm.toFixed(3)} mm ${match.tpi ? `(${match.tpi} TPI)` : ''}</span><br>
-                            <div class="extra-info">`; // Container for new fields
+                            <span class="extra-info">User Ø Diff: ${match.diameterDiff.toFixed(2)}mm, User Pitch Diff: ${match.pitchDiff.toFixed(3)}mm</span><br>
+                            <div class="extra-info">`; 
                     
-                    if (match.tapDrill_mm !== undefined) detailsHtml += `<span>Tap Drill: ${match.tapDrill_mm} mm</span><br>`;
-                    if (match.clearanceDrill_mm !== undefined) detailsHtml += `<span>Clearance Drill: ${match.clearanceDrill_mm} mm</span><br>`;
-                    if (match.minorDiameter_mm !== undefined) detailsHtml += `<span>Minor Ø: ${match.minorDiameter_mm.toFixed(2)} mm</span><br>`;
+                    if (match.tapDrill_mm !== undefined) detailsHtml += `<span>Tap Drill: ${typeof match.tapDrill_mm === 'number' ? match.tapDrill_mm.toFixed(2) : match.tapDrill_mm} mm</span><br>`;
+                    if (match.clearanceDrill_mm !== undefined) detailsHtml += `<span>Clearance Drill: ${typeof match.clearanceDrill_mm === 'number' ? match.clearanceDrill_mm.toFixed(2) : match.clearanceDrill_mm} mm</span><br>`;
+                    if (match.minorDiameter_mm !== undefined) detailsHtml += `<span>Minor Ø: ${typeof match.minorDiameter_mm === 'number' ? match.minorDiameter_mm.toFixed(3) : match.minorDiameter_mm} mm</span><br>`;
                     if (match.threadAngle_deg !== undefined) detailsHtml += `<span>Angle: ${match.threadAngle_deg}°</span><br>`;
                     
-                    detailsHtml += `</div></div>`; // Close extra-info and details
+                    detailsHtml += `</div></div>`; 
                     
                     listItem.innerHTML = `
                         ${detailsHtml}
@@ -259,7 +435,7 @@
 
             for (const key in lists) {
                 if (counts[key] === 0) {
-                    lists[key].innerHTML = '<li>No close matches found in this category.</li>';
+                    lists[key].innerHTML = '<li>No close matches found in this category. Consider adjusting input values or checking other categories.</li>';
                 }
             }
         }
@@ -274,17 +450,39 @@
             for (i = 0; i < tablinks.length; i++) {
                 tablinks[i].className = tablinks[i].className.replace(" active", "");
             }
-            document.getElementById(tabName).style.display = "block";
             
-            if (evt && evt.currentTarget) {
-                 evt.currentTarget.className += " active";
+            const tabElement = document.getElementById(tabName);
+            if (tabElement) {
+                tabElement.style.display = "block";
             } else {
-                document.getElementById('tab' + tabName).className += " active";
+                // Fallback if tabName is somehow invalid, e.g. display Metric
+                document.getElementById('Metric').style.display = "block";
+                document.getElementById('tabMetric').className += " active"; // Also activate its button
+                return;
+            }
+            
+            if (evt && evt.currentTarget) { // Click event
+                 evt.currentTarget.className += " active";
+            } else if (forceOpen) { // Programmatic open
+                const buttonId = 'tab' + tabName;
+                const activeButton = document.getElementById(buttonId);
+                if(activeButton) {
+                    activeButton.className += " active";
+                } else { // Fallback if button not found for tabName
+                     document.getElementById('tabMetric').className += " active";
+                }
             }
         }
 
         document.addEventListener('DOMContentLoaded', (event) => {
-            document.getElementById('tabMetric').click(); 
+            // Default to Metric tab on load
+            // Ensure only one tab is active initially
+            const tablinks = document.getElementsByClassName("tabs")[0].getElementsByTagName("button");
+            for (let i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById('tabMetric').className += " active";
+            openTab(null, 'Metric', true); 
         });
 
     </script>
